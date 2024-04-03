@@ -28,8 +28,13 @@ public class MemberDto implements UserDetails {
         return new MemberDto(null, username, nickname, password);
     }
 
-    public static MemberDto from(Long id, String username, String nickname, String password) {
-        return new MemberDto(id, username, nickname, password);
+    public static MemberDto from(Member member) {
+        return new MemberDto(
+                member.getId(),
+                member.getUsername(),
+                member.getNickname(),
+                member.getPassword()
+        );
     }
 
     public Member toEntity() {
