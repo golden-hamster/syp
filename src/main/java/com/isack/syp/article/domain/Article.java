@@ -1,33 +1,46 @@
 package com.isack.syp.article.domain;
 
+import com.isack.syp.audit.AuditingFields;
+import com.isack.syp.member.domain.Member;
+import com.isack.syp.playlist.domain.Playlist;
+import com.isack.syp.playlist.dto.PlaylistDto;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Entity
-public class Article {
+public class Article extends AuditingFields {
 
     @GeneratedValue
     @Id
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_Id")
+    private Member member;
+
     private String title;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "playlist_id")
+    private Playlist playlist;
+
+    private Integer commentsCount;
 
     private Boolean deleted = Boolean.FALSE;
 
     protected Article() {}
 
-    private Article(String title, String content) {
+    private Article(Member member, String title, String content) {
+        this.member = member;
         this.title = title;
         this.content = content;
     }
 
-    public static Article of(String title, String content){
-        return new Article(title, content);
+    public static Article of(Member member, String title, String content){
+        return new Article(member, title, content);
     }
 }
