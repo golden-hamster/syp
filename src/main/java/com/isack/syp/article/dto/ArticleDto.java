@@ -3,8 +3,6 @@ package com.isack.syp.article.dto;
 import com.isack.syp.article.domain.Article;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
-import com.isack.syp.playlist.domain.Playlist;
-import com.isack.syp.playlist.dto.PlaylistDto;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -17,7 +15,7 @@ public class ArticleDto {
     private String content;
     private LocalDateTime createdAt;
     private String createdBy;
-    private Integer commentsCount;
+    private Integer commentCount;
 
     public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount) {
         this.id = id;
@@ -26,7 +24,7 @@ public class ArticleDto {
         this.content = content;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
-        this.commentsCount = commentsCount;
+        this.commentCount = commentsCount;
     }
 
     public static ArticleDto of(MemberDto memberDto, String title, String content) {

@@ -1,22 +1,25 @@
 package com.isack.syp.article.controller;
 
+import com.isack.syp.article.dto.request.ArticleRequest;
 import com.isack.syp.article.dto.response.ArticleResponse;
 import com.isack.syp.article.dto.response.ArticlesResponse;
 import com.isack.syp.article.service.ArticleService;
+import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/articles")
-@Controller
+@RestController
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -33,5 +36,13 @@ public class ArticleController {
         ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId));
         return ResponseEntity.ok(articleResponse);
     }
+
+    @PostMapping
+    public ResponseEntity<Void> saveArticle(@RequestBody ArticleRequest articleRequest,
+                                            @AuthenticationPrincipal MemberDto memberDto) {
+        Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
+        return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
+    }
+
 
 }
