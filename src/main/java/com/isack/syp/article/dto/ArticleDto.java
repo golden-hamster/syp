@@ -15,25 +15,24 @@ public class ArticleDto {
     private MemberDto memberDto;
     private String title;
     private String content;
-    private PlaylistDto playlistDto;
     private LocalDateTime createdAt;
     private String createdBy;
     private Integer commentsCount;
 
-    public ArticleDto(Long id, MemberDto memberDto, String title, String content, PlaylistDto playlistDto, LocalDateTime createdAt, String createdBy, Integer commentsCount) {
+    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount) {
         this.id = id;
         this.memberDto = memberDto;
         this.title = title;
         this.content = content;
-        this.playlistDto = playlistDto;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.commentsCount = commentsCount;
     }
 
-    public static ArticleDto of(MemberDto memberDto, String title, String content, PlaylistDto playlistDto) {
-        return new ArticleDto(null, memberDto, title, content, playlistDto, null, null, null);
+    public static ArticleDto of(MemberDto memberDto, String title, String content) {
+        return new ArticleDto(null, memberDto, title, content, null, null, null);
     }
+
 
     public Article toEntity(Member member) {
         return Article.of(member, title, content);
@@ -45,7 +44,6 @@ public class ArticleDto {
                 MemberDto.from(article.getMember()),
                 article.getTitle(),
                 article.getContent(),
-                PlaylistDto.from(article.getPlaylist()),
                 article.getCreatedAt(),
                 article.getCreatedBy(),
                 article.getCommentsCount()

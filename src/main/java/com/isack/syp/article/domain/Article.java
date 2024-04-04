@@ -24,10 +24,6 @@ public class Article extends AuditingFields {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playlist_id")
-    private Playlist playlist;
-
     private Integer commentsCount;
 
     private Boolean deleted = Boolean.FALSE;
