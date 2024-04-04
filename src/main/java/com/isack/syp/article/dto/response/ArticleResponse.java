@@ -30,7 +30,7 @@ public class ArticleResponse {
                 articleDto.getContent(),
                 articleDto.getCreatedBy(),
                 articleDto.getCreatedAt(),
-                articleDto.getCommentsCount()
+                articleDto.getCommentCount()
         );
     }
 }

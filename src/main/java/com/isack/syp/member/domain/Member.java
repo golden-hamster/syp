@@ -14,7 +14,7 @@ public class Member {
     @Id
     private Long id;
 
-    private String username;
+    private String loginId;
 
     private String nickname;
 
@@ -22,13 +22,13 @@ public class Member {
 
     protected Member() {}
 
-    private Member(String username, String nickname, String password) {
-        this.username = username;
+    private Member(String loginId, String nickname, String password) {
+        this.loginId = loginId;
         this.nickname = nickname;
         this.password = password;
     }
 
-    public static Member of(String username, String nickname, String password) {
-        return new Member(username, nickname, password);
+    public static Member of(String loginId, String nickname, String password) {
+        return new Member(loginId, nickname, password);
     }
 }
