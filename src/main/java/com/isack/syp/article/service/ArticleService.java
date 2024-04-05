@@ -1,8 +1,10 @@
 package com.isack.syp.article.service;
 
+import com.isack.syp.article.domain.Article;
 import com.isack.syp.article.dto.ArticleDto;
 import com.isack.syp.article.repository.ArticleRepository;
 import com.isack.syp.member.domain.Member;
+import com.isack.syp.member.dto.MemberDto;
 import com.isack.syp.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,4 +34,16 @@ public class ArticleService {
         return articleRepository.save(articleDto.toEntity(member)).getId();
     }
 
+    @Transactional
+    public void deleteArticle(Long articleId, MemberDto memberDto) {
+        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        validateAuthor(memberDto, article);
+        articleRepository.delete(article);
+    }
+
+    private void validateAuthor(MemberDto memberDto, Article article) {
+        if (!article.isAuthor(memberDto.getId())) {
+            throw new RuntimeException("작성자가 아닙니다."); //TODO: RuntimeException 을 상속받아서 따로 처리할 것
+        }
+    }
 }
