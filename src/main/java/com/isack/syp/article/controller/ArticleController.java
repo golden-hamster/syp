@@ -38,11 +38,15 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveArticle(@RequestBody ArticleRequest articleRequest,
-                                            @AuthenticationPrincipal MemberDto memberDto) {
+    public ResponseEntity<Void> saveArticle(@RequestBody ArticleRequest articleRequest, @AuthenticationPrincipal MemberDto memberDto) {
         Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
         return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
     }
 
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal MemberDto memberDto) {
+        articleService.deleteArticle(articleId, memberDto);
+        return ResponseEntity.noContent().build();
+    }
 
 }

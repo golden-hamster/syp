@@ -39,4 +39,12 @@ public class Article extends AuditingFields {
     public static Article of(Member member, String title, String content){
         return new Article(member, title, content);
     }
+
+    public boolean isAuthor(Long memberId) {
+        if (memberId == null) {
+            return false;
+        }
+        return member.getId().equals(memberId);
+    }
+
 }
