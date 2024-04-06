@@ -40,6 +40,14 @@ public class Article extends AuditingFields {
         return new Article(member, title, content);
     }
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     public boolean isAuthor(Long memberId) {
         if (memberId == null) {
             return false;

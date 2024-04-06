@@ -41,6 +41,14 @@ public class ArticleService {
         articleRepository.delete(article);
     }
 
+    @Transactional
+    public void updateArticle(Long articleId, ArticleDto articleDto) {
+        Article article = articleRepository.findById(articleId).orElseThrow(RuntimeException::new);
+        validateAuthor(articleDto.getMemberDto(), article);
+        article.updateTitle(articleDto.getTitle());
+        article.updateContent(articleDto.getContent());
+    }
+
     private void validateAuthor(MemberDto memberDto, Article article) {
         if (!article.isAuthor(memberDto.getId())) {
             throw new RuntimeException("작성자가 아닙니다."); //TODO: RuntimeException 을 상속받아서 따로 처리할 것
