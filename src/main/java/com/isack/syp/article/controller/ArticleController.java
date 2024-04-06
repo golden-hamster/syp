@@ -1,6 +1,7 @@
 package com.isack.syp.article.controller;
 
 import com.isack.syp.article.dto.request.ArticleRequest;
+import com.isack.syp.article.dto.request.ArticleUpdateRequest;
 import com.isack.syp.article.dto.response.ArticleResponse;
 import com.isack.syp.article.dto.response.ArticlesResponse;
 import com.isack.syp.article.service.ArticleService;
@@ -41,6 +42,14 @@ public class ArticleController {
     public ResponseEntity<Void> saveArticle(@RequestBody ArticleRequest articleRequest, @AuthenticationPrincipal MemberDto memberDto) {
         Long articleId = articleService.saveArticle(articleRequest.toDto(memberDto));
         return ResponseEntity.created(URI.create("/api/articles/" + articleId)).build();
+    }
+
+    @PutMapping("/{articleId}")
+    public ResponseEntity<Void> updateArticle(@PathVariable Long articleId,
+                                              @RequestBody ArticleUpdateRequest articleUpdateRequest,
+                                              @AuthenticationPrincipal MemberDto memberDto) {
+        articleService.updateArticle(articleId, articleUpdateRequest.toDto(memberDto));
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{articleId}")
