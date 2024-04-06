@@ -13,27 +13,32 @@ import java.util.List;
 public class MemberDto implements UserDetails {
 
     private Long id;
-    private String username;
+    private String loginId;
     private String nickname;
     private String password;
 
-    public MemberDto(Long id, String username, String nickname, String password) {
+    public MemberDto(Long id, String loginId, String nickname, String password) {
         this.id = id;
-        this.username = username;
+        this.loginId = loginId;
         this.nickname = nickname;
         this.password = password;
     }
 
-    public static MemberDto of(String username, String nickname, String password) {
-        return new MemberDto(null, username, nickname, password);
+    public static MemberDto of(String loginId, String nickname, String password) {
+        return new MemberDto(null, loginId, nickname, password);
     }
 
-    public static MemberDto from(Long id, String username, String nickname, String password) {
-        return new MemberDto(id, username, nickname, password);
+    public static MemberDto from(Member member) {
+        return new MemberDto(
+                member.getId(),
+                member.getLoginId(),
+                member.getNickname(),
+                member.getPassword()
+        );
     }
 
     public Member toEntity() {
-        return Member.of(username, nickname, password);
+        return Member.of(loginId, nickname, password);
     }
 
     @Override
@@ -45,7 +50,7 @@ public class MemberDto implements UserDetails {
     public String getPassword() {return password;}
 
     @Override
-    public String getUsername() {return username;}
+    public String getUsername() {return loginId;}
 
     @Override
     public boolean isAccountNonExpired() {return true;}
