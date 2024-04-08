@@ -1,14 +1,19 @@
 package com.isack.syp.comment.controller;
 
+import com.isack.syp.comment.dto.CommentDto;
 import com.isack.syp.comment.dto.request.CommentRequest;
+import com.isack.syp.comment.dto.response.CommentResponse;
+import com.isack.syp.comment.dto.response.CommentsResponse;
 import com.isack.syp.comment.service.CommentService;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -16,6 +21,14 @@ import java.net.URI;
 public class CommentController {
 
     private CommentService commentService;
+
+    @GetMapping("/articles/{articleId}/comments}")
+    public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
+        List<CommentResponse> comments = commentService.findByArticleId(articleId).stream().map(CommentResponse::from).toList();
+        CommentsResponse commentsResponse = CommentsResponse.from(comments);
+        return ResponseEntity.ok(commentsResponse);
+    }
+
 
     @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<Void> saveComment(@PathVariable Long articleId,
