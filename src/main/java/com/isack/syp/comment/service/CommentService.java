@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -20,11 +22,17 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
 
+    public List<CommentDto> findByArticleId(Long articleId) {
+        return commentRepository.findByArticleId(articleId).stream().map(CommentDto::from).toList();
+    }
+
     @Transactional
     public Long saveComment(Long articleId, MemberDto memberDto, CommentDto commentDto) {
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findById(memberDto.getId()).orElseThrow(IllegalArgumentException::new);
         return commentRepository.save(commentDto.toEntity(article, member)).getId();
     }
+
+
 
 }
