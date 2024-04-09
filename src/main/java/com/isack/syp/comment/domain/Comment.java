@@ -39,4 +39,11 @@ public class Comment extends AuditingFields {
     public static Comment of(Article article, Member member, String content) {
         return new Comment(article, member, content);
     }
+
+    public boolean isAuthor(Long memberId) {
+        if (memberId == null) {
+            return false;
+        }
+        return member.getId().equals(memberId);
+    }
 }

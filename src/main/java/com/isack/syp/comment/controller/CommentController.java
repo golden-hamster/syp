@@ -1,13 +1,11 @@
 package com.isack.syp.comment.controller;
 
-import com.isack.syp.comment.dto.CommentDto;
 import com.isack.syp.comment.dto.request.CommentRequest;
 import com.isack.syp.comment.dto.response.CommentResponse;
 import com.isack.syp.comment.dto.response.CommentsResponse;
 import com.isack.syp.comment.service.CommentService;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +34,11 @@ public class CommentController {
                                             @AuthenticationPrincipal MemberDto memberDto) {
         Long commentId = commentService.saveComment(articleId, memberDto, commentRequest.toDto());
         return ResponseEntity.created(URI.create("/api/comments/" + commentId)).build();
+    }
+
+    @PostMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDto memberDto) {
+        commentService.deleteComment(commentId, memberDto);
+        return ResponseEntity.noContent().build();
     }
 }
