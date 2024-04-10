@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class Comment extends AuditingFields {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 

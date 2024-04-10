@@ -20,7 +20,7 @@ public class CommentController {
 
     private CommentService commentService;
 
-    @GetMapping("/articles/{articleId}/comments}")
+    @GetMapping("/articles/{articleId}/comments")
     public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
         List<CommentResponse> comments = commentService.findByArticleId(articleId).stream().map(CommentResponse::from).toList();
         CommentsResponse commentsResponse = CommentsResponse.from(comments);
