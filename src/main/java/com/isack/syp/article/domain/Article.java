@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Article extends AuditingFields {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
