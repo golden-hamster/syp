@@ -1,13 +1,11 @@
 package com.isack.syp.member.controller;
 
 import com.isack.syp.member.dto.request.MemberJoinRequest;
+import com.isack.syp.member.dto.response.MemberResponse;
 import com.isack.syp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -17,6 +15,12 @@ import java.net.URI;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/{nickname}")
+    public ResponseEntity<MemberResponse> findMember(@PathVariable String nickname) {
+        MemberResponse memberResponse = MemberResponse.from(memberService.findByNickname(nickname));
+        return ResponseEntity.ok(memberResponse);
+    }
 
     @PostMapping
     public ResponseEntity<Void> createMember(@RequestBody MemberJoinRequest memberJoinRequest) {
