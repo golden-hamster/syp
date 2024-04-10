@@ -9,11 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public MemberDto findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).map(MemberDto::from).orElseThrow(IllegalAccessError::new);
+    }
+
 
     @Transactional
     public Long createMember(MemberDto memberDto) {
