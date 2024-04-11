@@ -23,7 +23,7 @@ public class MemberService {
 
     @Transactional
     public Long createMember(MemberDto memberDto) {
-        return memberRepository.save(Member.of(memberDto.getLoginId(), memberDto.getNickname(), passwordEncoder.encode(memberDto.getPassword()))).getId();
+        return memberRepository.save(Member.of(memberDto.getUsername(), memberDto.getNickname(), passwordEncoder.encode(memberDto.getPassword()))).getId();
     }
 
 }

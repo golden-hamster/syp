@@ -5,15 +5,15 @@ import lombok.Getter;
 
 @Getter
 public class MemberResponse {
-    private String loginId;
+    private String username;
     private String nickname;
 
-    public MemberResponse(String loginId, String nickname) {
-        this.loginId = loginId;
+    public MemberResponse(String username, String nickname) {
+        this.username = username;
         this.nickname = nickname;
     }
 
     public static MemberResponse from(MemberDto memberDto) {
-        return new MemberResponse(memberDto.getLoginId(), memberDto.getNickname());
+        return new MemberResponse(memberDto.getUsername(), memberDto.getNickname());
     }
 }
