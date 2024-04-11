@@ -31,6 +31,7 @@ public class CommentService {
     public Long saveComment(Long articleId, MemberDto memberDto, CommentDto commentDto) {
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findById(memberDto.getId()).orElseThrow(IllegalArgumentException::new);
+        article.addCommentCount(); // TODO: 동시성 고려할 것
         return commentRepository.save(commentDto.toEntity(article, member)).getId();
     }
 

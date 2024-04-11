@@ -24,7 +24,7 @@ public class Article extends AuditingFields {
 
     private String content;
 
-    private Integer commentsCount;
+    private Integer commentCount;
 
     private Boolean deleted = Boolean.FALSE;
 
@@ -46,6 +46,10 @@ public class Article extends AuditingFields {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void addCommentCount() {
+        this.commentCount++;
     }
 
     public boolean isAuthor(Long memberId) {
