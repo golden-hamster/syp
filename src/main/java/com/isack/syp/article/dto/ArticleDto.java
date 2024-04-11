@@ -44,7 +44,7 @@ public class ArticleDto {
                 article.getContent(),
                 article.getCreatedAt(),
                 article.getCreatedBy(),
-                article.getCommentsCount()
+                article.getCommentCount()
         );
     }
 }
