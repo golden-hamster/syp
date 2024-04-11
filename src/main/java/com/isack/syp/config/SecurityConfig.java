@@ -21,7 +21,8 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
                         .mvcMatchers(
                                 HttpMethod.GET,
-                                "/"
+                                "/",
+                                "/api/articles/{}"
                         ).permitAll()
                         .mvcMatchers(HttpMethod.POST,
                                 "/users/form")
