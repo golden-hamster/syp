@@ -1,5 +1,6 @@
 package com.isack.syp.member.controller;
 
+import com.isack.syp.member.dto.request.LoginRequest;
 import com.isack.syp.member.dto.request.MemberJoinRequest;
 import com.isack.syp.member.dto.response.MemberResponse;
 import com.isack.syp.member.service.MemberService;
@@ -27,4 +28,5 @@ public class MemberController {
         Long memberId = memberService.createMember(memberJoinRequest.toDto());
         return ResponseEntity.created(URI.create("/api/members/" + memberId)).build();
     }
+
 }

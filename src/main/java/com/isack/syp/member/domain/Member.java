@@ -29,7 +29,7 @@ public class Member {
         this.password = password;
     }
 
-    public static Member of(String loginId, String nickname, String password) {
-        return new Member(loginId, nickname, password);
+    public static Member of(String username, String nickname, String password) {
+        return new Member(username, nickname, password);
     }
 }

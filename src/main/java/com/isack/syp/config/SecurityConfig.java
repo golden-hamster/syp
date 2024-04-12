@@ -22,10 +22,11 @@ public class SecurityConfig {
                         .mvcMatchers(
                                 HttpMethod.GET,
                                 "/",
+                                "/api/articles",
                                 "/api/articles/{}"
                         ).permitAll()
                         .mvcMatchers(HttpMethod.POST,
-                                "/users/form")
+                                "/api/members")
                         .permitAll()
                         .anyRequest().authenticated()
                 )

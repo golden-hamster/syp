@@ -5,17 +5,17 @@ import lombok.Getter;
 
 @Getter
 public class MemberJoinRequest {
-    private String longId;
+    private String username;
     private String nickname;
     private String password;
 
-    public MemberJoinRequest(String longId, String nickname, String password) {
-        this.longId = longId;
+    public MemberJoinRequest(String username, String nickname, String password) {
+        this.username = username;
         this.nickname = nickname;
         this.password = password;
     }
 
     public MemberDto toDto() {
-        return MemberDto.of(longId, nickname, password);
+        return MemberDto.of(username, nickname, password);
     }
 }
