@@ -4,10 +4,14 @@ import com.isack.syp.article.domain.Article;
 import com.isack.syp.audit.AuditingFields;
 import com.isack.syp.member.domain.Member;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Getter
+@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Comment extends AuditingFields {
 
@@ -24,7 +28,6 @@ public class Comment extends AuditingFields {
     private Member member;
 
     private String content;
-
 
     private Boolean deleted = Boolean.FALSE;
 

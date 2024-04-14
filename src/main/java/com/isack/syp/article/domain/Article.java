@@ -5,10 +5,14 @@ import com.isack.syp.member.domain.Member;
 import com.isack.syp.playlist.domain.Playlist;
 import com.isack.syp.playlist.dto.PlaylistDto;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Getter
+@SQLDelete(sql = "UPDATE article SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Entity
 public class Article extends AuditingFields {
 
