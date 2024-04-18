@@ -1,7 +1,9 @@
 package com.isack.syp.article.dto.response;
 
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 
+@Getter
 public class ArticlesResponse {
     private Page<ArticleResponse> articleResponses;
 
