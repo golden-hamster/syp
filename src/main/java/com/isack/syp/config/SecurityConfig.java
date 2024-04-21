@@ -28,8 +28,10 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/",
                                 "/articles",
+                                "/articles/{}",
                                 "/api/articles",
-                                "/api/articles/{}"
+                                "/api/articles/{}",
+                                "/api/articles/{}/comments"
                         ).permitAll()
                         .mvcMatchers(HttpMethod.POST,
                                 "/api/members")
