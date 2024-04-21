@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping("/articles/{articleId}/comments")
     public ResponseEntity<CommentsResponse> findComments(@PathVariable Long articleId) {
