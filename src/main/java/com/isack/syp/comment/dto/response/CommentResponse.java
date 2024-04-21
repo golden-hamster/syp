@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentResponse {
     private Long id;
-    private String title;
-    private String createBy;
+    private String content;
+    private String createdBy;
     private LocalDateTime createdAt;
 
-    public CommentResponse(Long id, String title, String createBy, LocalDateTime createdAt) {
+    public CommentResponse(Long id, String content, String createdBy, LocalDateTime createdAt) {
         this.id = id;
-        this.title = title;
-        this.createBy = createBy;
+        this.content = content;
+        this.createdBy = createdBy;
         this.createdAt = createdAt;
     }
 
