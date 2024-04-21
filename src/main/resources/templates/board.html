@@ -2,11 +2,153 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>board</title>
+    <title>게시판</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="/css/search-bar.css" rel="stylesheet">
+    <style>
+        a{
+            text-decoration: none;
+        }
+        form{
+            display: inline;
+        }
+        .card{
+            margin-bottom: 56px;
+            border-width: 1px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Articles</h1>
-    <div id="articles"></div>
+<header id="header">
+    헤더 삽입부
+    <hr>
+</header>
+<main class="container">
+
+    <!-- 검색창 -->
+    <div class="row">
+        <div class="card card-margin search-form">
+            <div class="card-body p-0">
+                <form id="search-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row no-gutters">
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <label for="search-type" hidden>검색 유형</label>
+                                    <select class="form-control" id="search-type" name="searchType">
+                                        <option>제목</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                    <label for="search-value" hidden>검색어</label>
+                                    <input type="text" placeholder="검색어..." class="form-control" id="search-value"
+                                           name="searchValue">
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                                    <button type="submit" class="btn btn-base">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-search">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시글 -->
+<!--    <div class="row">-->
+<!--        <table class="table" id="article-table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th class="title col-6"><a>제목</a></th>-->
+<!--                <th class="title col-2"><a>해시태그</a></th>-->
+<!--                <th class="user-id"><a>작성자</a></th>-->
+<!--                <th class="created-at"><a>작성일</a></th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--                <td class="title"><a>첫 글</a></td>-->
+<!--                <td class="hashtag"><span class="badge text-bg-secondary mx-1"><a class="text-reset">#java</a></span></td>-->
+<!--                <td class="user-id">Isack</td>-->
+<!--                <td class="created-at">-->
+<!--                    <time>2023-12-12</time>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>두번째 글</td>-->
+<!--                <td>#spring</td>-->
+<!--                <td>Isack</td>-->
+<!--                <td>-->
+<!--                    <time>2023-12-13</time>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>세번째 글</td>-->
+<!--                <td>#java</td>-->
+<!--                <td>Isack</td>-->
+<!--                <td>-->
+<!--                    <time>2023-12-14</time>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+
+    <div id="articleContainer" class="row text-center mx-auto">
+        <a class="card col-3" style="width: 18rem;" >
+            <img src="/images/temp.png" class="card-img-top rounded-5" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span>제목입니다</span>
+                </h5>
+                <p class="card-text">
+                    <span class="badge text-bg-secondary">#java</span>
+                </p>
+                <p class="card-text">2024-04-19</p>
+            </div>
+        </a>
+        <a class="card col-3" style="width: 18rem;" >
+            <img src="/images/temp.png" class="card-img-top rounded-5" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span>제목입니다</span>
+                </h5>
+                <p class="card-text">
+                    <span class="badge text-bg-secondary">#java</span>
+                </p>
+                <p class="card-text">2024-04-19</p>
+            </div>
+        </a>
+        <a class="card col-3" style="width: 18rem;" >
+            <img src="/images/temp.png" class="card-img-top rounded-5" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span>제목입니다</span>
+                </h5>
+                <p class="card-text">
+                    <span class="badge text-bg-secondary">#java</span>
+                </p>
+                <p class="card-text">2024-04-19</p>
+            </div>
+        </a>
+    </div>
+
+
+</main>
+<footer id="footer">
+    <hr>
+    푸터 삽입부
+</footer>
     <script src="/js/board.js"></script>
 </body>
 </html>
