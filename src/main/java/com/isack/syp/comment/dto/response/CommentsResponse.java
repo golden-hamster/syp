@@ -1,7 +1,10 @@
 package com.isack.syp.comment.dto.response;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class CommentsResponse {
     private List<CommentResponse> comments;
 
