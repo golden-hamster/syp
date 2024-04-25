@@ -2,6 +2,7 @@ package com.isack.syp.article.service;
 
 import com.isack.syp.article.domain.Article;
 import com.isack.syp.article.dto.ArticleDto;
+import com.isack.syp.article.repository.ArticleQueryRepository;
 import com.isack.syp.article.repository.ArticleRepository;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
@@ -18,10 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final ArticleQueryRepository articleQueryRepository;
     private final MemberRepository memberRepository;
 
     public Page<ArticleDto> findAll(Pageable pageable) {
         return articleRepository.findAll(pageable).map(ArticleDto::from);
+    }
+
+    public Page<ArticleDto> findAll(String articleSearch, Pageable pageable) {
+        return articleQueryRepository.findAll(articleSearch, pageable).map(ArticleDto::from);
     }
 
     public ArticleDto findById(Long id) {

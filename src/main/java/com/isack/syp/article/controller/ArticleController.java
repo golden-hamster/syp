@@ -26,8 +26,10 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping
-    public ResponseEntity<ArticlesResponse> findArticles(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ArticleResponse> articles = articleService.findAll(pageable).map(ArticleResponse::from);
+    public ResponseEntity<ArticlesResponse> findArticles(
+            @RequestParam(required = false) String articleSearch,
+            @PageableDefault(size = 9, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<ArticleResponse> articles = articleService.findAll(articleSearch, pageable).map(ArticleResponse::from);
         ArticlesResponse articlesResponse = ArticlesResponse.from(articles);
         return ResponseEntity.ok(articlesResponse);
     }
