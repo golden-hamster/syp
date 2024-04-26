@@ -23,10 +23,10 @@ public class ArticleQueryRepository {
         this.query = new JPAQueryFactory(em);
     }
 
-    public Page<Article> findAll(String articleSearch, Pageable pageable) {
+    public Page<Article> findAll(String search, Pageable pageable) {
         List<Article> articles = query.select(article)
                 .from(article)
-                .where(likeTitle(articleSearch))
+                .where(likeTitle(search))
                 .orderBy(article.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -34,7 +34,7 @@ public class ArticleQueryRepository {
 
         Long total = query.select(article.count())
                 .from(article)
-                .where(likeTitle(articleSearch))
+                .where(likeTitle(search))
                 .fetchOne();
 
         return new PageImpl<>(articles, pageable, total);
