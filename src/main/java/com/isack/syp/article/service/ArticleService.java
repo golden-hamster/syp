@@ -26,8 +26,8 @@ public class ArticleService {
         return articleRepository.findAll(pageable).map(ArticleDto::from);
     }
 
-    public Page<ArticleDto> findAll(String articleSearch, Pageable pageable) {
-        return articleQueryRepository.findAll(articleSearch, pageable).map(ArticleDto::from);
+    public Page<ArticleDto> findAll(String search, Pageable pageable) {
+        return articleQueryRepository.findAll(search, pageable).map(ArticleDto::from);
     }
 
     public ArticleDto findById(Long id) {

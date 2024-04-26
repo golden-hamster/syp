@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ArticlePageController {
 
     @GetMapping
-    public String articlesPage() {
-        return "board";
-    }
+    public String articlesPage() {return "board";}
 
     @GetMapping("/{articleId}")
     public String articleDetailPage() {return "detail";}
+
+
 }
