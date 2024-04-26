@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,9 +26,9 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<ArticlesResponse> findArticles(
-            @RequestParam(required = false) String articleSearch,
+            @RequestParam(required = false) String search,
             @PageableDefault(size = 9, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ArticleResponse> articles = articleService.findAll(articleSearch, pageable).map(ArticleResponse::from);
+        Page<ArticleResponse> articles = articleService.findAll(search, pageable).map(ArticleResponse::from);
         ArticlesResponse articlesResponse = ArticlesResponse.from(articles);
         return ResponseEntity.ok(articlesResponse);
     }
