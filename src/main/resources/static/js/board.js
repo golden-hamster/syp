@@ -1,15 +1,14 @@
 document.addEventListener('DOMContentLoaded', function (){
-    fetch('http://localhost:8080/api/articles')
+
+    const apiUrl = 'http://localhost:8080/api/articles';
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('articleContainer');
             data.articleResponses.content.forEach(article => {
                 const articleElement = document.createElement('div');
                 articleElement.className = 'col mb-5 d-flex justify-content-center';
-
-                // articleElement.href = '/articles/' + article.id;
-                // articleElement.className = 'card col';
-                // articleElement.style.width = '18rem';
 
                 articleElement.innerHTML = `
                 <a class="card" href="/articles/${article.id}" style="width: 23rem;" >
@@ -26,14 +25,13 @@ document.addEventListener('DOMContentLoaded', function (){
             });
         });
 
+
     const searchForm = document.getElementById('search-form');
 
     searchForm.addEventListener('submit', function(event){
         event.preventDefault();
 
         const searchInput = document.getElementById('search-input').value;
-        const url = new URL(window.location.href);
-        url.searchParams.append('search', searchInput);
 
         fetch(`http://localhost:8080/api/articles?search=${searchInput}`)
             .then(response => response.json())
