@@ -3,6 +3,8 @@ package com.isack.syp.article.dto;
 import com.isack.syp.article.domain.Article;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
+import com.isack.syp.playlist.domain.Playlist;
+import com.isack.syp.playlist.dto.PlaylistDto;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -16,8 +18,9 @@ public class ArticleDto {
     private LocalDateTime createdAt;
     private String createdBy;
     private Integer commentCount;
+    private PlaylistDto playlistDto;
 
-    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount) {
+    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, PlaylistDto playlistDto) {
         this.id = id;
         this.memberDto = memberDto;
         this.title = title;
@@ -25,15 +28,16 @@ public class ArticleDto {
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.commentCount = commentsCount;
+        this.playlistDto = playlistDto;
     }
 
-    public static ArticleDto of(MemberDto memberDto, String title, String content) {
-        return new ArticleDto(null, memberDto, title, content, null, null, null);
+    public static ArticleDto of(MemberDto memberDto, String title, String content, PlaylistDto playlistDto) {
+        return new ArticleDto(null, memberDto, title, content, null, null, null, playlistDto);
     }
 
 
-    public Article toEntity(Member member) {
-        return Article.of(member, title, content);
+    public Article toEntity(Member member, Playlist playlist) {
+        return Article.of(member, title, content, playlist);
     }
 
     public static ArticleDto from(Article article) {
@@ -44,7 +48,9 @@ public class ArticleDto {
                 article.getContent(),
                 article.getCreatedAt(),
                 article.getCreatedBy(),
-                article.getCommentCount()
+                article.getCommentCount(),
+                PlaylistDto.from(article.getPlaylist())
         );
     }
+
 }

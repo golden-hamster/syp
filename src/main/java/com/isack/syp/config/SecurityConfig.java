@@ -31,7 +31,8 @@ public class SecurityConfig {
                                 "/articles/{}",
                                 "/api/articles",
                                 "/api/articles/{}",
-                                "/api/articles/{}/comments"
+                                "/api/articles/{}/comments",
+                                "/api/playlists"
                         ).permitAll()
                         .mvcMatchers(HttpMethod.POST,
                                 "/api/members")

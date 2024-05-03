@@ -1,6 +1,5 @@
 package com.isack.syp.playlist.domain;
 
-import com.isack.syp.article.domain.Article;
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -8,8 +7,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Getter
-@SQLDelete(sql = "UPDATE playlist SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
 @Entity
 public class Playlist {
 
@@ -17,11 +14,23 @@ public class Playlist {
     @Id
     private Long id;
 
-    private String playlistId;
+    @Column(unique = true)
+    private String apiId;
 
-    private Boolean deleted = Boolean.FALSE;
+    private String thumbnailUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
-    private Article article;
+    private Integer likeCount;
+
+    protected Playlist() {}
+
+    private Playlist(String apiId, String thumbnailUrl) {
+        this.apiId = apiId;
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public static Playlist of(String apiId, String thumbnailUrl) {
+        return new Playlist(apiId, thumbnailUrl);
+    }
+
+
 }
