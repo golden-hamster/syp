@@ -13,14 +13,18 @@ public class ArticleResponse {
     private String createdBy;
     private LocalDateTime createdAt;
     private Integer commentCount;
+    private String apiId;
+    private String thumbnailUrl;
 
-    public ArticleResponse(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Integer commentCount) {
+    public ArticleResponse(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Integer commentCount, String apiId, String thumbnailUrl) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.commentCount = commentCount;
+        this.apiId = apiId;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public static ArticleResponse from(ArticleDto articleDto) {
@@ -30,7 +34,9 @@ public class ArticleResponse {
                 articleDto.getContent(),
                 articleDto.getCreatedBy(),
                 articleDto.getCreatedAt(),
-                articleDto.getCommentCount()
+                articleDto.getCommentCount(),
+                articleDto.getPlaylistDto().getApiId(),
+                articleDto.getPlaylistDto().getThumbnailUrl()
         );
     }
 }

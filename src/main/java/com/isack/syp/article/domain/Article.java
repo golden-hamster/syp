@@ -21,7 +21,7 @@ public class Article extends AuditingFields {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_Id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     private String title;
@@ -30,18 +30,23 @@ public class Article extends AuditingFields {
 
     private Integer commentCount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "playlist_id")
+    private Playlist playlist;
+
     private Boolean deleted = Boolean.FALSE;
 
     protected Article() {}
 
-    private Article(Member member, String title, String content) {
+    private Article(Member member, String title, String content, Playlist playlist) {
         this.member = member;
         this.title = title;
         this.content = content;
+        this.playlist = playlist;
     }
 
-    public static Article of(Member member, String title, String content){
-        return new Article(member, title, content);
+    public static Article of(Member member, String title, String content, Playlist playlist){
+        return new Article(member, title, content, playlist);
     }
 
     public void updateTitle(String title) {

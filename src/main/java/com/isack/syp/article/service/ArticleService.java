@@ -7,6 +7,10 @@ import com.isack.syp.article.repository.ArticleRepository;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import com.isack.syp.member.repository.MemberRepository;
+import com.isack.syp.playlist.domain.Playlist;
+import com.isack.syp.playlist.dto.PlaylistDto;
+import com.isack.syp.playlist.repository.PlaylistRepository;
+import com.isack.syp.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +25,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleQueryRepository articleQueryRepository;
     private final MemberRepository memberRepository;
+    private final PlaylistService playlistService;
 
     public Page<ArticleDto> findAll(Pageable pageable) {
         return articleRepository.findAll(pageable).map(ArticleDto::from);
@@ -36,8 +41,13 @@ public class ArticleService {
 
     @Transactional
     public Long saveArticle(ArticleDto articleDto) {
+        if (playlistService.findByApiId(articleDto.getPlaylistDto().getApiId()).isEmpty()) {
+            Playlist playlist = playlistService.savePlaylist(articleDto.getPlaylistDto()); //TODO: 플레이리스트가 중복일 경우 처리
+        }
+
+        Playlist playlist = playlistService.findByApiId(articleDto.getPlaylistDto().getApiId()).get();
         Member member = memberRepository.findById(articleDto.getMemberDto().getId()).orElseThrow(IllegalArgumentException::new);
-        return articleRepository.save(articleDto.toEntity(member)).getId();
+        return articleRepository.save(articleDto.toEntity(member, playlist)).getId();
     }
 
     @Transactional
