@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -41,11 +43,7 @@ public class ArticleService {
 
     @Transactional
     public Long saveArticle(ArticleDto articleDto) {
-        if (playlistService.findByApiId(articleDto.getPlaylistDto().getApiId()).isEmpty()) {
-            Playlist playlist = playlistService.savePlaylist(articleDto.getPlaylistDto()); //TODO: 플레이리스트가 중복일 경우 처리
-        }
-
-        Playlist playlist = playlistService.findByApiId(articleDto.getPlaylistDto().getApiId()).get();
+        Playlist playlist = getOrCreatePlaylist(articleDto.getPlaylistDto());
         Member member = memberRepository.findById(articleDto.getMemberDto().getId()).orElseThrow(IllegalArgumentException::new);
         return articleRepository.save(articleDto.toEntity(member, playlist)).getId();
     }
@@ -69,5 +67,10 @@ public class ArticleService {
         if (!article.isAuthor(memberDto.getId())) {
             throw new RuntimeException("작성자가 아닙니다."); //TODO: RuntimeException 을 상속받아서 따로 처리할 것
         }
+    }
+
+    private Playlist getOrCreatePlaylist(PlaylistDto playlistDto) {
+        Optional<Playlist> playlist = playlistService.findByApiId(playlistDto.getApiId());
+        return playlist.orElseGet(() -> playlistService.savePlaylist(playlistDto));
     }
 }
