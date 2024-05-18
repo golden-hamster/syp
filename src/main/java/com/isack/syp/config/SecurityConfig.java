@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .formLogin(withDefaults())
                 .logout(logout -> logout.logoutSuccessUrl("/"))
                 .csrf().disable()
+                .cors().and()
                 .build();
     }
 
