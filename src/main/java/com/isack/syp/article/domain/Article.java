@@ -26,6 +26,7 @@ public class Article extends AuditingFields {
 
     private String title;
 
+    @Column(length = 1000)
     private String content;
 
     private Integer commentCount;
