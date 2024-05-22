@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import axios from "axios";
-import {ref} from "vue";
+import axios from 'axios'
+import { ref } from 'vue'
 
-const articles = ref([]);
+const articles = ref([])
 
-axios.get("http://localhost:8080/api/articles").then((response) => {
-  const data = response.data.articleResponses.content;
+axios.get('http://localhost:8080/api/articles').then((response) => {
+  const data = response.data.articleResponses.content
   data.forEach((r) => {
-    articles.value.push(r);
-  });
-});
-
+    articles.value.push(r)
+  })
+})
 </script>
 
 <template>
   <ul>
     <li v-for="article in articles" :key="article.id">
       <div class="title">
-        <router-link :to="{name : 'read', params: {articleId: article.id}}">{{ article.title }}</router-link>
+        <router-link :to="{ name: 'article', params: { articleId: article.id } }">{{
+          article.title
+        }}</router-link>
       </div>
 
       <div class="content">
@@ -29,16 +30,15 @@ axios.get("http://localhost:8080/api/articles").then((response) => {
         <div class="regDate">2024-05-19</div>
       </div>
     </li>
-
   </ul>
 </template>
 
 <style scoped lang="scss">
-ul{
+ul {
   list-style: none;
   padding: 0;
 
-  li{
+  li {
     margin-bottom: 1.3rem;
 
     .title {
@@ -58,17 +58,17 @@ ul{
       color: #5d5d5d;
     }
 
-    &:last-child{
+    &:last-child {
       margin-bottom: 0;
     }
 
     .sub {
       margin-top: 4px;
       font-size: 0.78rem;
-       .regDate{
-         margin-left: 10px;
-         color: #5d5d5d;
-       }
+      .regDate {
+        margin-left: 10px;
+        color: #5d5d5d;
+      }
     }
   }
 }
