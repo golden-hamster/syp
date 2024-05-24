@@ -9,6 +9,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @SQLDelete(sql = "UPDATE article SET deleted = true WHERE id = ?")
@@ -29,25 +31,28 @@ public class Article extends AuditingFields {
     @Column(length = 1000)
     private String content;
 
-    private Integer commentCount;
+    private Integer commentCount = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playlist_id")
-    private Playlist playlist;
+    private String thumbnailUrl;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "playlist_id")
+//    private Playlist playlist;
+
 
     private Boolean deleted = Boolean.FALSE;
 
     protected Article() {}
 
-    private Article(Member member, String title, String content, Playlist playlist) {
+    private Article(Member member, String title, String content, String thumbnailUrl) {
         this.member = member;
         this.title = title;
         this.content = content;
-        this.playlist = playlist;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
-    public static Article of(Member member, String title, String content, Playlist playlist){
-        return new Article(member, title, content, playlist);
+    public static Article of(Member member, String title, String content, String thumbnailUrl){
+        return new Article(member, title, content, thumbnailUrl);
     }
 
     public void updateTitle(String title) {
