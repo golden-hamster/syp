@@ -3,11 +3,14 @@ package com.isack.syp.article.dto.request;
 import com.isack.syp.article.dto.ArticleDto;
 import com.isack.syp.article.dto.PlaylistItemDto;
 import com.isack.syp.member.dto.MemberDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleRequest {
 
     private String title;
@@ -19,14 +22,6 @@ public class ArticleRequest {
 
 
     private List<PlaylistItemDto> playlistItemDtoList;
-
-
-    public ArticleRequest(String title, String content, String thumbnailUrl, List<PlaylistItemDto> playlistItemDtoList) {
-        this.title = title;
-        this.content = content;
-        this.thumbnailUrl = thumbnailUrl;
-        this.playlistItemDtoList = playlistItemDtoList;
-    }
 
     public ArticleDto toDto(MemberDto memberDto) {
         return ArticleDto.of(memberDto, title, content, thumbnailUrl, playlistItemDtoList);
