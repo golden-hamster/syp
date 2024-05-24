@@ -12,15 +12,13 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentDto {
     private Long id;
-    private ArticleDto articleDto;
     private MemberDto memberDto;
     private String content;
     private LocalDateTime createdAt;
     private String createdBy;
 
-    public CommentDto(Long id, ArticleDto articleDto, MemberDto memberDto, String content, LocalDateTime createdAt, String createdBy) {
+    public CommentDto(Long id, MemberDto memberDto, String content, LocalDateTime createdAt, String createdBy) {
         this.id = id;
-        this.articleDto = articleDto;
         this.memberDto = memberDto;
         this.content = content;
         this.createdAt = createdAt;
@@ -28,7 +26,7 @@ public class CommentDto {
     }
 
     public static CommentDto of(String content) {
-        return new CommentDto(null, null, null, content, null, null);
+        return new CommentDto(null, null, content, null, null);
     }
 
     public Comment toEntity(Article article, Member member) {
@@ -38,7 +36,6 @@ public class CommentDto {
     public static CommentDto from(Comment comment) {
         return new CommentDto(
                 comment.getId(),
-                ArticleDto.from(comment.getArticle()),
                 MemberDto.from(comment.getMember()),
                 comment.getContent(),
                 comment.getCreatedAt(),
