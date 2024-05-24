@@ -4,6 +4,7 @@ import com.isack.syp.article.dto.request.ArticleRequest;
 import com.isack.syp.article.dto.request.ArticleUpdateRequest;
 import com.isack.syp.article.dto.response.ArticleResponse;
 import com.isack.syp.article.dto.response.ArticlesResponse;
+import com.isack.syp.article.dto.response.SimpleArticleResponse;
 import com.isack.syp.article.service.ArticleService;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class ArticleController {
     public ResponseEntity<ArticlesResponse> findArticles(
             @RequestParam(required = false) String search,
             @PageableDefault(size = 9, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ArticleResponse> articles = articleService.findAll(search, pageable).map(ArticleResponse::from);
+        Page<SimpleArticleResponse> articles = articleService.findAll(search, pageable).map(SimpleArticleResponse::from);
         ArticlesResponse articlesResponse = ArticlesResponse.from(articles);
         return ResponseEntity.ok(articlesResponse);
     }

@@ -1,24 +1,30 @@
 package com.isack.syp.article.dto.request;
 
 import com.isack.syp.article.dto.ArticleDto;
+import com.isack.syp.article.dto.PlaylistItemDto;
 import com.isack.syp.member.dto.MemberDto;
-import com.isack.syp.playlist.dto.PlaylistDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleRequest {
-    private String title;
-    private String content;
-    private String apiId;
 
-    public ArticleRequest(String title, String content, String apiId) {
-        this.title = title;
-        this.content = content;
-        this.apiId = apiId;
-    }
+    private String title;
+
+    private String content;
+
+    // 첫 번재 아이템의 url 이 썸네일의 역할을 함
+    private String thumbnailUrl;
+
+
+    private List<PlaylistItemDto> playlistItemDtoList;
 
     public ArticleDto toDto(MemberDto memberDto) {
-        return ArticleDto.of(memberDto, title, content, PlaylistDto.of(apiId));
+        return ArticleDto.of(memberDto, title, content, thumbnailUrl, playlistItemDtoList);
     }
 
 }
