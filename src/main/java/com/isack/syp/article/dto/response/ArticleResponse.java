@@ -1,42 +1,35 @@
 package com.isack.syp.article.dto.response;
 
 import com.isack.syp.article.dto.ArticleDto;
+import com.isack.syp.article.dto.PlaylistItemDto;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleResponse {
     private Long id;
     private String title;
     private String content;
+    private List<PlaylistItemDto> playlistItemDtoList;
     private String createdBy;
     private LocalDateTime createdAt;
     private Integer commentCount;
-    private String apiId;
-    private String thumbnailUrl;
-
-    public ArticleResponse(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Integer commentCount, String apiId, String thumbnailUrl) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.commentCount = commentCount;
-        this.apiId = apiId;
-        this.thumbnailUrl = thumbnailUrl;
-    }
 
     public static ArticleResponse from(ArticleDto articleDto) {
         return new ArticleResponse(
                 articleDto.getId(),
                 articleDto.getTitle(),
                 articleDto.getContent(),
+                articleDto.getPlaylistItemDtoList(),
                 articleDto.getCreatedBy(),
                 articleDto.getCreatedAt(),
-                articleDto.getCommentCount(),
-                articleDto.getPlaylistDto().getApiId(),
-                articleDto.getPlaylistDto().getThumbnailUrl()
+                articleDto.getCommentCount()
         );
     }
 }
