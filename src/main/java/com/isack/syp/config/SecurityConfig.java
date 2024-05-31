@@ -40,20 +40,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers(
-                                HttpMethod.GET,
-                                "/",
-                                "/articles",
-                                "/articles/{}",
-                                "/api/articles",
-                                "/api/articles/{}",
-                                "/api/articles/{}/comments",
-                                "/api/playlists"
-                        ).permitAll()
-                        .mvcMatchers(HttpMethod.POST,
-                                "/api/members")
-                        .permitAll()
-                        .anyRequest().authenticated()
+//                        .mvcMatchers(
+//                                HttpMethod.GET,
+//                                "/",
+//                                "/articles",
+//                                "/articles/{}",
+//                                "/api/articles",
+//                                "/api/articles/{}",
+//                                "/api/articles/{}/comments",
+//                                "/api/playlists"
+//                        ).permitAll()
+//                        .mvcMatchers(HttpMethod.POST,
+//                                "/api/members")
+                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(loginAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout.logoutSuccessUrl("/"))
@@ -64,7 +63,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginAuthFilter loginAuthFilter() {
-        LoginAuthFilter filter = new LoginAuthFilter("/api/login",objectMapper);
+        LoginAuthFilter filter = new LoginAuthFilter("/api/login", objectMapper);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper));
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
@@ -81,5 +80,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){return PasswordEncoderFactories.createDelegatingPasswordEncoder();}
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 }
