@@ -7,7 +7,11 @@ const title = ref("")
 const content = ref("")
 const apiId = ref("")
 
-const router = useRouter();
+const router = useRouter()
+
+const youtubeAxios = axios.create({
+  withCredentials: false // Youtube API 호출에서는 인증 정보 필요 없음
+})
 
 const write = () => {
   axios.post("http://localhost:8080/api/articles", {
