@@ -2,6 +2,7 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import piniaPluginPersistedstate, { createPersistedState } from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
@@ -17,9 +18,24 @@ import axios from 'axios'
 const app = createApp(App)
 
 app.use(ElementPlus)
-app.use(createPinia())
 app.use(router)
+app.use(
+  createPinia().use(
+    createPersistedState({
+      storage: localStorage,
+      auto: true
+    })
+  )
+)
 axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.withCredentials = true
 
 app.mount('#app')
+
+// const pinia = createPinia()
+// pinia.use(
+//   createPersistedState({
+//     storage: localStorage,
+//     auto: true
+//   })
+// )
