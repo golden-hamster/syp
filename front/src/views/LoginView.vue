@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import Login from '@/entity/member/Login'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import HttpError from '@/http/HttpError'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 

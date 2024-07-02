@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -14,7 +15,7 @@ public class SimpleArticleResponse {
     private String title;
     private String thumbnailUrl;
     private String createdBy;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private Integer commentCount;
 
     public static SimpleArticleResponse from(ArticleDto articleDto) {
@@ -23,7 +24,7 @@ public class SimpleArticleResponse {
                 articleDto.getTitle(),
                 articleDto.getThumbnailUrl(),
                 articleDto.getCreatedBy(),
-                articleDto.getCreatedAt(),
+                articleDto.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")),
                 articleDto.getCommentCount()
         );
     }

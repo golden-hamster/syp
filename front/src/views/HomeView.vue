@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import SimpleArticle from '@/entity/article/SimpleArticle'
 
-const articles = ref([])
+const articles = ref<SimpleArticle[]>([])
+// const articles = ref([])
 
-axios.get('http://localhost:8080/api/articles').then((response) => {
-  const data = response.data.articleResponses.content
-  data.forEach((r) => {
-    articles.value.push(r)
+const getArticles = () => {
+  axios.get('/api/articles').then((response) => {
+    const data = response.data.simpleArticleResponses.content
+    articles.value = data
+    console.log(articles.value)
+    // data.forEach((r) => {
+    //   articles.value.push(r)
+    // })
   })
+}
+onMounted(() => {
+  getArticles()
 })
 </script>
 
@@ -22,12 +31,30 @@ axios.get('http://localhost:8080/api/articles').then((response) => {
       </div>
 
       <div class="content">
-        {{ article.content }}
+        {{ article.thumbnailUrl }}
       </div>
 
       <div class="d-flex sub">
-        <div class="category">개발</div>
-        <div class="regDate">2024-05-19</div>
+        <div class="author">{{ article.createdBy }}</div>
+        <div class="regDate">{{ article.createdAt }}</div>
+      </div>
+    </li>
+  </ul>
+  <ul>
+    <li v-for="article in articles" :key="article.id">
+      <div class="title">
+        <router-link :to="{ name: 'article', params: { articleId: article.id } }">{{
+          article.title
+        }}</router-link>
+      </div>
+
+      <div class="content">
+        {{ article.thumbnailUrl }}
+      </div>
+
+      <div class="d-flex sub">
+        <div class="author">{{ article.createdBy }}</div>
+        <div class="regDate">{{ article.createdAt }}</div>
       </div>
     </li>
   </ul>

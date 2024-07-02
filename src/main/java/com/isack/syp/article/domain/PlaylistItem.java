@@ -1,8 +1,6 @@
 package com.isack.syp.article.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -25,7 +23,7 @@ public class PlaylistItem {
 
     private String videoId;
 
-    private String channelTitle;
+    private String videoTitle;
 
     private String thumbnailUrl;
 
@@ -33,15 +31,15 @@ public class PlaylistItem {
 
     protected PlaylistItem() {}
 
-    private PlaylistItem(String videoId, Article article, String channelTitle, String thumbnailUrl) {
+    private PlaylistItem(String videoId, Article article, String videoTitle, String thumbnailUrl) {
         this.videoId = videoId;
         this.article = article;
-        this.channelTitle = channelTitle;
+        this.videoTitle = videoTitle;
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public static PlaylistItem of(String videoId, Article article, String channelTitle, String thumbnailUrl) {
-        return new PlaylistItem(videoId, article, channelTitle, thumbnailUrl);
+    public static PlaylistItem of(String videoId, Article article, String videoTitle, String thumbnailUrl) {
+        return new PlaylistItem(videoId, article, videoTitle, thumbnailUrl);
     }
 
 }

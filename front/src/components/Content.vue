@@ -1,20 +1,11 @@
 <template>
   <el-main class="content">
-    <el-row>
-      <el-col>
-      <RouterView />
-      </el-col>
-    </el-row>
+    <RouterView />
   </el-main>
 </template>
 
 <script setup lang="ts">
-
-import {RouterView} from "vue-router";
+import { RouterView } from 'vue-router'
 </script>
 
-<style scoped>
-.content {
-  height: calc(100vh - 60px);
-}
-</style>
+<style scoped></style>

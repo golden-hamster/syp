@@ -55,6 +55,8 @@ public class Article extends AuditingFields {
         return new Article(member, title, content, thumbnailUrl);
     }
 
+    public void updateThumbnailUrl(String thumbnailUrl){this.thumbnailUrl = thumbnailUrl;}
+
     public void updateTitle(String title) {
         this.title = title;
     }

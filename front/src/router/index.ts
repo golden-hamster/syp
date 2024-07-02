@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import WriteView from '@/views/WriteView.vue'
-import EditView from '@/views/EditView.vue'
 import LoginView from '@/views/LoginView.vue'
-import ReadView2 from '@/views/ReadView.vue'
 import ReadView from '@/views/ReadView.vue'
+import AllView from '@/views/AllView.vue'
+import UpdateView from '@/views/UpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,10 +31,15 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/edit/:articleId',
-      name: 'edit',
-      component: EditView,
+      path: '/update/:articleId',
+      name: 'update',
+      component: UpdateView,
       props: true
+    },
+    {
+      path: '/all',
+      name: 'all',
+      component: AllView
     }
     // {
     //   path: '/about',

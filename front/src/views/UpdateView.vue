@@ -1,35 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, defineProps } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
-import PlaylistItem from '@/entity/article/PlaylistItem'
 import { ElMessage } from 'element-plus'
+import PlaylistItem from '@/entity/article/PlaylistItem'
+
+const props = defineProps({
+  articleId: {
+    type: [Number, String],
+    require: true
+  }
+})
 
 const title = ref('')
 const content = ref('')
 const videoUrl = ref('')
-const playlistItem = ref(new PlaylistItem())
 const playlistItems = ref<PlaylistItem[]>([])
 
+const route = useRoute()
 const router = useRouter()
 
 const youtubeAxios = axios.create({
-  withCredentials: false // Youtube API 호출에서는 인증 정보 필요 없음
+  withCredentials: false
 })
-
-const write = () => {
-  axios
-    .post('/api/articles', {
-      title: title.value,
-      content: content.value,
-      thumbnailUrl: playlistItems.value[0].thumbnailUrl,
-      playlistItemDtoList: playlistItems.value
-    })
-    .then(() => {
-      ElMessage({ type: 'success', message: '게시글이 작성되었습니다.' })
-      router.replace({ name: 'home' })
-    })
-}
 
 function extractVideoId(url: string): string | null {
   const regex =
@@ -72,6 +65,36 @@ function addPlaylistItem() {
 function deletePlaylistItem(videoId: string) {
   playlistItems.value = playlistItems.value.filter((item) => item.videoId !== videoId)
   ElMessage({ type: 'success', message: '플레이리스트 항목이 삭제되었습니다.' })
+}
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(`/api/articles/${props.articleId}`)
+    const article = response.data
+    title.value = article.title
+    content.value = article.content
+    playlistItems.value = article.playlistItemDtoList.map((item: any) => new PlaylistItem(item))
+  } catch (error) {
+    ElMessage({ type: 'error', message: '게시글을 불러오는데 실패했습니다.' })
+  }
+})
+
+const update = () => {
+  const articleId = props.articleId
+  axios
+    .put(`api/articles/${articleId}`, {
+      title: title.value,
+      content: content.value,
+      thumbnailUrl: playlistItems.value[0]?.thumbnailUrl,
+      playlistItemDtoList: playlistItems.value
+    })
+    .then(() => {
+      ElMessage({ type: 'success', message: '게시글이 수정되었습니다.' })
+      router.replace({ name: 'home' })
+    })
+    .catch((error) => {
+      ElMessage({ type: 'error', message: '게시글 수정에 실패했습니다.' })
+    })
 }
 </script>
 
@@ -134,11 +157,10 @@ function deletePlaylistItem(videoId: string) {
         <el-button color="#626aef" @click="deletePlaylistItem(item.videoId)">X</el-button>
       </div>
     </div>
-
     <div class="mt-5">
       <el-col :offset="20" :pull="10">
         <div class="d-flex justify-content-center">
-          <el-button color="#626aef" @click="write()">플레이리스트 게시하기</el-button>
+          <el-button color="#626aef" @click="update()">플레이리스트 수정하기</el-button>
         </div>
       </el-col>
     </div>

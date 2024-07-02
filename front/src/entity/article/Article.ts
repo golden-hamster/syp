@@ -1,4 +1,5 @@
 import PlaylistItem from '@/entity/article/PlaylistItem'
+import { DateTimeFormatter } from '@js-joda/core'
 
 export default class Article {
   public id = 0
@@ -6,6 +7,7 @@ export default class Article {
   public content = ''
   public createdBy = ''
   public createdAt = ''
+  public commentCount = 0
   public playlistItem: PlaylistItem[] = []
 
   constructor(data?: Partial<Article>) {

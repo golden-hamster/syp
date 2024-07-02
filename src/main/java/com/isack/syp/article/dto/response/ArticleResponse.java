@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,7 @@ public class ArticleResponse {
     private String content;
     private List<PlaylistItemDto> playlistItemDtoList;
     private String createdBy;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private Integer commentCount;
 
     public static ArticleResponse from(ArticleDto articleDto) {
@@ -28,7 +29,7 @@ public class ArticleResponse {
                 articleDto.getContent(),
                 articleDto.getPlaylistItemDtoList(),
                 articleDto.getCreatedBy(),
-                articleDto.getCreatedAt(),
+                articleDto.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")),
                 articleDto.getCommentCount()
         );
     }
