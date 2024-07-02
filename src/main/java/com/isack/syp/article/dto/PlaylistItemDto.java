@@ -8,23 +8,23 @@ import lombok.Getter;
 public class PlaylistItemDto {
 
     private String videoId;
-    private String channelTitle;
+    private String videoTitle;
     private String thumbnailUrl;
 
-    public PlaylistItemDto(String videoId, String channelTitle, String thumbnailUrl) {
+    public PlaylistItemDto(String videoId, String videoTitle, String thumbnailUrl) {
         this.videoId = videoId;
-        this.channelTitle = channelTitle;
+        this.videoTitle = videoTitle;
         this.thumbnailUrl = thumbnailUrl;
     }
 
     public PlaylistItem toEntity(Article article) {
-        return PlaylistItem.of(videoId, article, channelTitle, thumbnailUrl);
+        return PlaylistItem.of(videoId, article, videoTitle, thumbnailUrl);
     }
 
     public static PlaylistItemDto from(PlaylistItem playlistItem) {
         return new PlaylistItemDto(
                 playlistItem.getVideoId(),
-                playlistItem.getChannelTitle(),
+                playlistItem.getVideoTitle(),
                 playlistItem.getThumbnailUrl()
         );
     }
