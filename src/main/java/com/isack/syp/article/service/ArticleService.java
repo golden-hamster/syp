@@ -1,47 +1,41 @@
 package com.isack.syp.article.service;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.PlaylistItem;
+import com.isack.syp.article.domain.item;
 import com.isack.syp.article.dto.ArticleDto;
-import com.isack.syp.article.dto.PlaylistItemDto;
 import com.isack.syp.article.repository.ArticleQueryRepository;
 import com.isack.syp.article.repository.ArticleRepository;
-import com.isack.syp.article.repository.PlaylistItemRepository;
+import com.isack.syp.article.repository.ItemRepository;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import com.isack.syp.member.repository.MemberRepository;
-import com.isack.syp.playlist.domain.Playlist;
-import com.isack.syp.playlist.dto.PlaylistDto;
-import com.isack.syp.playlist.repository.PlaylistRepository;
-import com.isack.syp.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleQueryRepository articleQueryRepository;
     private final MemberRepository memberRepository;
-    private final PlaylistItemRepository playlistItemRepository;
+    private final ItemRepository itemRepository;
 
     public Page<ArticleDto> findAll(String search, Pageable pageable) {
         return articleQueryRepository.findAll(search, pageable).map(ArticleDto::from);
     }
 
     public ArticleDto findById(Long id) {
-        List<PlaylistItem> playlistItems = playlistItemRepository.findByArticleId(id);
-        return articleRepository.findById(id).map((article) -> ArticleDto.from(article, playlistItems)).orElseThrow(RuntimeException::new);
+        List<item> items = itemRepository.findByArticleId(id);
+        return articleRepository.findById(id).map((article) -> ArticleDto.from(article, items)).orElseThrow(RuntimeException::new);
     }
 
 
@@ -49,8 +43,8 @@ public class ArticleService {
     public Long saveArticle(ArticleDto articleDto) {
         Member member = memberRepository.findById(articleDto.getMemberDto().getId()).orElseThrow(RuntimeException::new);
         Article article = articleRepository.save(articleDto.toEntity(member));
-        List<PlaylistItem> playlistItems = articleDto.getPlaylistItemDtoList().stream().map((playlistItemDto -> playlistItemDto.toEntity(article))).toList();
-        playlistItemRepository.saveAll(playlistItems);
+        List<item> items = articleDto.getItemDtoList().stream().map((itemDto -> itemDto.toEntity(article))).toList();
+        itemRepository.saveAll(items);
         return article.getId();
     }
 
@@ -59,7 +53,7 @@ public class ArticleService {
     public void deleteArticle(Long articleId, MemberDto memberDto) {
         Article article = articleRepository.findById(articleId).orElseThrow(RuntimeException::new);
         validateAuthor(memberDto, article);
-        playlistItemRepository.deleteByArticleId(articleId);
+        itemRepository.deleteByArticleId(articleId);
         articleRepository.delete(article);
     }
 
@@ -67,9 +61,13 @@ public class ArticleService {
     public void updateArticle(Long articleId, ArticleDto articleDto) {
         Article article = articleRepository.findById(articleId).orElseThrow(RuntimeException::new);
         validateAuthor(articleDto.getMemberDto(), article);
-        playlistItemRepository.deleteByArticleId(articleId);
-        List<PlaylistItem> playlistItems = articleDto.getPlaylistItemDtoList().stream().map((playlistItemDto -> playlistItemDto.toEntity(article))).toList();
-        playlistItemRepository.saveAll(playlistItems);
+        itemRepository.deleteByArticleId(articleId);
+        List<item> byArticleId = itemRepository.findByArticleId(articleId);
+        for (item item : byArticleId) {
+            log.info("아이템={}", item.getVideoTitle());
+        }
+        List<item> items = articleDto.getItemDtoList().stream().map((itemDto -> itemDto.toEntity(article))).toList();
+        itemRepository.saveAll(items);
 
         article.updateThumbnailUrl(articleDto.getThumbnailUrl());
         article.updateTitle(articleDto.getTitle());

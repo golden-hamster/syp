@@ -3,7 +3,7 @@ import { ref, onMounted, defineProps } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import PlaylistItem from '@/entity/article/PlaylistItem'
+import Item from '@/entity/article/Item'
 
 const props = defineProps({
   articleId: {
@@ -15,7 +15,7 @@ const props = defineProps({
 const title = ref('')
 const content = ref('')
 const videoUrl = ref('')
-const playlistItems = ref<PlaylistItem[]>([])
+const items = ref<Item[]>([])
 
 const route = useRoute()
 const router = useRouter()
@@ -31,14 +31,14 @@ function extractVideoId(url: string): string | null {
   return match ? match[1] || match[2] : null
 }
 
-function addPlaylistItem() {
+function addItem() {
   const videoId = extractVideoId(videoUrl.value)
   if (!videoId) {
     ElMessage({ type: 'error', message: '유효하지 않은 url 입니다.' })
     return
   }
 
-  const isDuplicate = playlistItems.value.some((item) => item.videoId === videoId)
+  const isDuplicate = items.value.some((item) => item.videoId === videoId)
   if (isDuplicate) {
     ElMessage({ type: 'error', message: '중복 url 입니다.' })
     return
@@ -52,18 +52,18 @@ function addPlaylistItem() {
       }
     })
     .then((response) => {
-      const newPlaylistItem = new PlaylistItem({
+      const newItem = new Item({
         thumbnailUrl: response.data.items[0].snippet.thumbnails.medium.url,
         videoId: response.data.items[0].id,
         videoTitle: response.data.items[0].snippet.title
       })
-      playlistItems.value.push(newPlaylistItem)
+      items.value.push(newItem)
       videoUrl.value = '' // 인풋 필드 초기화
     })
 }
 
-function deletePlaylistItem(videoId: string) {
-  playlistItems.value = playlistItems.value.filter((item) => item.videoId !== videoId)
+function deleteItem(videoId: string) {
+  items.value = items.value.filter((item) => item.videoId !== videoId)
   ElMessage({ type: 'success', message: '플레이리스트 항목이 삭제되었습니다.' })
 }
 
@@ -73,7 +73,7 @@ onMounted(async () => {
     const article = response.data
     title.value = article.title
     content.value = article.content
-    playlistItems.value = article.playlistItemDtoList.map((item: any) => new PlaylistItem(item))
+    items.value = article.itemDtoList.map((item: any) => new Item(item))
   } catch (error) {
     ElMessage({ type: 'error', message: '게시글을 불러오는데 실패했습니다.' })
   }
@@ -85,8 +85,8 @@ const update = () => {
     .put(`api/articles/${articleId}`, {
       title: title.value,
       content: content.value,
-      thumbnailUrl: playlistItems.value[0]?.thumbnailUrl,
-      playlistItemDtoList: playlistItems.value
+      thumbnailUrl: items.value[0]?.thumbnailUrl,
+      itemDtoList: items.value
     })
     .then(() => {
       ElMessage({ type: 'success', message: '게시글이 수정되었습니다.' })
@@ -137,12 +137,12 @@ const update = () => {
 
       <div class="col-4 text-start">
         <div>
-          <el-button color="#626aef" @click="addPlaylistItem()">영상 추가하기</el-button>
+          <el-button color="#626aef" @click="addItem()">영상 추가하기</el-button>
         </div>
       </div>
     </div>
 
-    <div class="row align-items-center" v-for="item in playlistItems" :key="item.videoId">
+    <div class="row align-items-center" v-for="item in items" :key="item.videoId">
       <div class="col-md-4 text-end">
         <el-image
           :src="item.thumbnailUrl"
@@ -154,7 +154,7 @@ const update = () => {
         {{ item.videoTitle }}
       </div>
       <div class="col-md-3">
-        <el-button color="#626aef" @click="deletePlaylistItem(item.videoId)">X</el-button>
+        <el-button color="#626aef" @click="deleteItem(item.videoId)">X</el-button>
       </div>
     </div>
     <div class="mt-5">

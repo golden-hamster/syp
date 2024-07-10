@@ -1,7 +1,7 @@
 package com.isack.syp.article.dto;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.PlaylistItem;
+import com.isack.syp.article.domain.item;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.Getter;
@@ -20,9 +20,9 @@ public class ArticleDto {
     private String createdBy;
     private Integer commentCount;
     private String thumbnailUrl;
-    private List<PlaylistItemDto> playlistItemDtoList;
+    private List<itemDto> itemDtoList;
 
-    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, String thumbnailUrl,List<PlaylistItemDto> playlistItemDtoList) {
+    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, String thumbnailUrl,List<itemDto> itemDtoList) {
         this.id = id;
         this.memberDto = memberDto;
         this.title = title;
@@ -31,11 +31,11 @@ public class ArticleDto {
         this.createdBy = createdBy;
         this.commentCount = commentsCount;
         this.thumbnailUrl = thumbnailUrl;
-        this.playlistItemDtoList = playlistItemDtoList;
+        this.itemDtoList = itemDtoList;
     }
 
-    public static ArticleDto of(MemberDto memberDto, String title, String content, String thumbnailUrl,List<PlaylistItemDto> playlistItemDtoList) {
-        return new ArticleDto(null, memberDto, title, content, null, null, null, thumbnailUrl, playlistItemDtoList);
+    public static ArticleDto of(MemberDto memberDto, String title, String content, String thumbnailUrl,List<itemDto> itemDtoList) {
+        return new ArticleDto(null, memberDto, title, content, null, null, null, thumbnailUrl, itemDtoList);
     }
 
 
@@ -43,9 +43,9 @@ public class ArticleDto {
         return Article.of(member, title, content, thumbnailUrl);
     }
 
-    public static ArticleDto from(Article article, List<PlaylistItem> playlistItems) {
-        List<PlaylistItemDto> playlistItemDtoList = playlistItems.stream()
-                .map(PlaylistItemDto::from)
+    public static ArticleDto from(Article article, List<item> items) {
+        List<itemDto> itemDtoList = items.stream()
+                .map(itemDto::from)
                 .collect(Collectors.toList());
 
         return new ArticleDto(
@@ -57,7 +57,7 @@ public class ArticleDto {
                 article.getCreatedBy(),
                 article.getCommentCount(),
                 article.getThumbnailUrl(),
-                playlistItemDtoList
+                itemDtoList
         );
     }
 

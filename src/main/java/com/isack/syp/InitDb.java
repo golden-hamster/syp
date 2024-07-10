@@ -1,10 +1,9 @@
 package com.isack.syp;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.PlaylistItem;
+import com.isack.syp.article.domain.item;
 import com.isack.syp.comment.domain.Comment;
 import com.isack.syp.member.domain.Member;
-import com.isack.syp.playlist.domain.Playlist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -43,26 +41,26 @@ public class InitDb {
                 Article article = Article.of(member, "Test title" + num++, content, "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 article.setCreatedBy(member.getNickname());
                 em.persist(article);
-                List<PlaylistItem> playlistItems = new ArrayList<>();
-                PlaylistItem item1 = PlaylistItem.of(
+                List<item> items = new ArrayList<>();
+                item item1 = item.of(
                         "_nXwrx4Qyz8",
                         article,
                         "고양이와 Iwamizu의 Lofi Jazz Piano • 공부할때, 집중할때, 코딩할때 • 3 hours",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
-                PlaylistItem item2 = PlaylistItem.of(
+                item item2 = item.of(
                         "Uyl_KVZpYQ4",
                         article,
                         "Erikson Jayanto - Farewell (Official Audio)",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
-                PlaylistItem item3 = PlaylistItem.of(
+                item item3 = item.of(
                         "DIPxnt5vnhU",
                         article,
                         "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [MV]",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
-                playlistItems.add(item1);
-                playlistItems.add(item2);
-                playlistItems.add(item3);
-                playlistItems.forEach(em::persist);
+                items.add(item1);
+                items.add(item2);
+                items.add(item3);
+                items.forEach(em::persist);
                 //댓글 생성
                 for (int k = 1; k <= 5; k++) {
                     Comment comment = Comment.of(article, member, "Comment is...");

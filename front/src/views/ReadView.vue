@@ -58,14 +58,14 @@ onMounted(() => {
 <template>
   <div class="row">
     <div class="col-5 text-end">
-      <el-image :src="article.playlistItem[0]?.thumbnailUrl" style="width: 90%" />
+      <el-image :src="article.item[0]?.thumbnailUrl" style="width: 90%" />
     </div>
 
     <div class="col-7">
       <div class="row">
         <div class="col-9">
           <el-text>
-            <h2>{{ article.title }}제목입니다123</h2>
+            <h2>{{ article.title }}</h2>
             <el-text tag="sub" size="small">{{ article.createdAt }}</el-text>
           </el-text>
         </div>
@@ -109,7 +109,7 @@ onMounted(() => {
     </div>
   </div>
 
-  <div class="row align-items-center" v-for="item in article.playlistItem" :key="item.videoId">
+  <div class="row align-items-center" v-for="item in article.item" :key="item.videoId">
     <div class="col-md-4 text-end">
       <el-image :src="item.thumbnailUrl" style="width: 80%" />
     </div>

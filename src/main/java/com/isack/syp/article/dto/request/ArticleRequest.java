@@ -1,7 +1,7 @@
 package com.isack.syp.article.dto.request;
 
 import com.isack.syp.article.dto.ArticleDto;
-import com.isack.syp.article.dto.PlaylistItemDto;
+import com.isack.syp.article.dto.itemDto;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,10 +21,10 @@ public class ArticleRequest {
     private String thumbnailUrl;
 
 
-    private List<PlaylistItemDto> playlistItemDtoList;
+    private List<itemDto> itemDtoList;
 
     public ArticleDto toDto(MemberDto memberDto) {
-        return ArticleDto.of(memberDto, title, content, thumbnailUrl, playlistItemDtoList);
+        return ArticleDto.of(memberDto, title, content, thumbnailUrl, itemDtoList);
     }
 
 }
