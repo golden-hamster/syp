@@ -7,11 +7,10 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Getter
-@SQLDelete(sql = "UPDATE playlist_item SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE item SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
-@Table(name = "playlist_item")
 @Entity
-public class PlaylistItem {
+public class item {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,17 +28,17 @@ public class PlaylistItem {
 
     private Boolean deleted = Boolean.FALSE;
 
-    protected PlaylistItem() {}
+    protected item() {}
 
-    private PlaylistItem(String videoId, Article article, String videoTitle, String thumbnailUrl) {
+    private item(String videoId, Article article, String videoTitle, String thumbnailUrl) {
         this.videoId = videoId;
         this.article = article;
         this.videoTitle = videoTitle;
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public static PlaylistItem of(String videoId, Article article, String videoTitle, String thumbnailUrl) {
-        return new PlaylistItem(videoId, article, videoTitle, thumbnailUrl);
+    public static item of(String videoId, Article article, String videoTitle, String thumbnailUrl) {
+        return new item(videoId, article, videoTitle, thumbnailUrl);
     }
 
 }
