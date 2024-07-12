@@ -1,24 +1,23 @@
-package com.isack.syp.article.domain;
+package com.isack.syp.item;
 
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @SQLDelete(sql = "UPDATE item SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 @Entity
-public class item {
+public class Item {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
-    private Article article;
 
     private String videoId;
 
@@ -28,17 +27,21 @@ public class item {
 
     private Boolean deleted = Boolean.FALSE;
 
-    protected item() {}
 
-    private item(String videoId, Article article, String videoTitle, String thumbnailUrl) {
+    protected Item() {}
+
+    private Item(String videoId, String videoTitle, String thumbnailUrl) {
         this.videoId = videoId;
-        this.article = article;
         this.videoTitle = videoTitle;
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public static item of(String videoId, Article article, String videoTitle, String thumbnailUrl) {
-        return new item(videoId, article, videoTitle, thumbnailUrl);
+    public static Item of(String videoId, String videoTitle, String thumbnailUrl) {
+        return new Item(videoId, videoTitle, thumbnailUrl);
+    }
+
+    public void changeStatus() {
+        this.deleted = !this.deleted;
     }
 
 }
