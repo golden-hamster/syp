@@ -1,7 +1,8 @@
 package com.isack.syp.article.dto;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.item;
+import com.isack.syp.item.Item;
+import com.isack.syp.item.itemDto;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.Getter;
@@ -43,7 +44,7 @@ public class ArticleDto {
         return Article.of(member, title, content, thumbnailUrl);
     }
 
-    public static ArticleDto from(Article article, List<item> items) {
+    public static ArticleDto from(Article article, List<Item> items) {
         List<itemDto> itemDtoList = items.stream()
                 .map(itemDto::from)
                 .collect(Collectors.toList());

@@ -1,7 +1,7 @@
 package com.isack.syp;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.item;
+import com.isack.syp.item.Item;
 import com.isack.syp.comment.domain.Comment;
 import com.isack.syp.member.domain.Member;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.isack.syp.article.dto.request;
 
 import com.isack.syp.article.dto.ArticleDto;
-import com.isack.syp.article.dto.itemDto;
+import com.isack.syp.item.itemDto;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.Getter;
 

@@ -1,11 +1,13 @@
 package com.isack.syp.article.service;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.item;
+import com.isack.syp.item.Item;
 import com.isack.syp.article.dto.ArticleDto;
 import com.isack.syp.article.repository.ArticleQueryRepository;
 import com.isack.syp.article.repository.ArticleRepository;
-import com.isack.syp.article.repository.ItemRepository;
+import com.isack.syp.articleItem.ArticleItemService;
+import com.isack.syp.item.ItemService;
+import com.isack.syp.item.itemDto;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import com.isack.syp.member.repository.MemberRepository;
