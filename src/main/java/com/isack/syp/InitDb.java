@@ -41,20 +41,17 @@ public class InitDb {
                 Article article = Article.of(member, "Test title" + num++, content, "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 article.setCreatedBy(member.getNickname());
                 em.persist(article);
-                List<item> items = new ArrayList<>();
-                item item1 = item.of(
+                List<Item> items = new ArrayList<>();
+                Item item1 = Item.of(
                         "_nXwrx4Qyz8",
-                        article,
                         "고양이와 Iwamizu의 Lofi Jazz Piano • 공부할때, 집중할때, 코딩할때 • 3 hours",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
-                item item2 = item.of(
+                Item item2 = Item.of(
                         "Uyl_KVZpYQ4",
-                        article,
                         "Erikson Jayanto - Farewell (Official Audio)",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
-                item item3 = item.of(
+                Item item3 = Item.of(
                         "DIPxnt5vnhU",
-                        article,
                         "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [MV]",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 items.add(item1);
