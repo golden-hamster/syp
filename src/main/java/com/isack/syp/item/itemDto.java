@@ -1,7 +1,6 @@
-package com.isack.syp.article.dto;
+package com.isack.syp.item;
 
 import com.isack.syp.article.domain.Article;
-import com.isack.syp.article.domain.item;
 import lombok.Getter;
 
 @Getter
@@ -17,11 +16,11 @@ public class itemDto {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public item toEntity(Article article) {
-        return item.of(videoId, article, videoTitle, thumbnailUrl);
+    public Item toEntity() {
+        return Item.of(videoId, videoTitle, thumbnailUrl);
     }
 
-    public static itemDto from(item item) {
+    public static itemDto from(Item item) {
         return new itemDto(
                 item.getVideoId(),
                 item.getVideoTitle(),

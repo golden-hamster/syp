@@ -1,7 +1,7 @@
 package com.isack.syp.article.dto.response;
 
 import com.isack.syp.article.dto.ArticleDto;
-import com.isack.syp.article.dto.itemDto;
+import com.isack.syp.item.itemDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
