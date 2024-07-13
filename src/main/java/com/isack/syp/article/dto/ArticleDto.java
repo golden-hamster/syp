@@ -20,10 +20,11 @@ public class ArticleDto {
     private LocalDateTime createdAt;
     private String createdBy;
     private Integer commentCount;
+    private Integer likesCount;
     private String thumbnailUrl;
     private List<itemDto> itemDtoList;
 
-    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, String thumbnailUrl,List<itemDto> itemDtoList) {
+    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, Integer likesCount,String thumbnailUrl,List<itemDto> itemDtoList) {
         this.id = id;
         this.memberDto = memberDto;
         this.title = title;
@@ -31,12 +32,13 @@ public class ArticleDto {
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.commentCount = commentsCount;
+        this.likesCount = likesCount;
         this.thumbnailUrl = thumbnailUrl;
         this.itemDtoList = itemDtoList;
     }
 
     public static ArticleDto of(MemberDto memberDto, String title, String content, String thumbnailUrl,List<itemDto> itemDtoList) {
-        return new ArticleDto(null, memberDto, title, content, null, null, null, thumbnailUrl, itemDtoList);
+        return new ArticleDto(null, memberDto, title, content, null, null, null, null, thumbnailUrl, itemDtoList);
     }
 
 
@@ -57,6 +59,7 @@ public class ArticleDto {
                 article.getCreatedAt(),
                 article.getCreatedBy(),
                 article.getCommentCount(),
+                article.getLikesCount(),
                 article.getThumbnailUrl(),
                 itemDtoList
         );
@@ -71,6 +74,7 @@ public class ArticleDto {
                 article.getCreatedAt(),
                 article.getCreatedBy(),
                 article.getCommentCount(),
+                article.getLikesCount(),
                 article.getThumbnailUrl(),
                 null
         );
