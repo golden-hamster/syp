@@ -27,7 +27,9 @@ public class Article extends AuditingFields {
     @Column(length = 1000)
     private String content;
 
-    private Integer commentCount = 0;
+    private Integer commentCount;
+
+    private Integer likesCount;
 
     private String thumbnailUrl;
 
@@ -45,6 +47,8 @@ public class Article extends AuditingFields {
         this.title = title;
         this.content = content;
         this.thumbnailUrl = thumbnailUrl;
+        this.commentCount = 0;
+        this.likesCount = 0;
     }
 
     public static Article of(Member member, String title, String content, String thumbnailUrl){
@@ -63,6 +67,14 @@ public class Article extends AuditingFields {
 
     public void addCommentCount() {
         this.commentCount++;
+    }
+
+    public void increaseLikes() {
+        this.likesCount++;
+    }
+
+    public void decreaseLikes() {
+        this.likesCount--;
     }
 
     public boolean isAuthor(Long memberId) {

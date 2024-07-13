@@ -1,7 +1,6 @@
 package com.isack.syp.config.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.isack.syp.config.MemberPrincipal;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
