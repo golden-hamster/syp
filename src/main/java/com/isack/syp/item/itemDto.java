@@ -1,27 +1,25 @@
 package com.isack.syp.item;
 
-import com.isack.syp.article.domain.Article;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class itemDto {
+public class ItemDto {
 
+    private Long id;
     private String videoId;
     private String videoTitle;
     private String thumbnailUrl;
-
-    public itemDto(String videoId, String videoTitle, String thumbnailUrl) {
-        this.videoId = videoId;
-        this.videoTitle = videoTitle;
-        this.thumbnailUrl = thumbnailUrl;
-    }
 
     public Item toEntity() {
         return Item.of(videoId, videoTitle, thumbnailUrl);
     }
 
-    public static itemDto from(Item item) {
-        return new itemDto(
+    public static ItemDto from(Item item) {
+        return new ItemDto(
+                item.getId(),
                 item.getVideoId(),
                 item.getVideoTitle(),
                 item.getThumbnailUrl()

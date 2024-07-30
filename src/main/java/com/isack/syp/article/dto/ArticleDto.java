@@ -2,7 +2,7 @@ package com.isack.syp.article.dto;
 
 import com.isack.syp.article.domain.Article;
 import com.isack.syp.item.Item;
-import com.isack.syp.item.itemDto;
+import com.isack.syp.item.ItemDto;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.Getter;
@@ -22,9 +22,9 @@ public class ArticleDto {
     private Integer commentCount;
     private Integer likesCount;
     private String thumbnailUrl;
-    private List<itemDto> itemDtoList;
+    private List<ItemDto> itemDtoList;
 
-    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, Integer likesCount,String thumbnailUrl,List<itemDto> itemDtoList) {
+    public ArticleDto(Long id, MemberDto memberDto, String title, String content, LocalDateTime createdAt, String createdBy, Integer commentsCount, Integer likesCount,String thumbnailUrl,List<ItemDto> itemDtoList) {
         this.id = id;
         this.memberDto = memberDto;
         this.title = title;
@@ -37,7 +37,7 @@ public class ArticleDto {
         this.itemDtoList = itemDtoList;
     }
 
-    public static ArticleDto of(MemberDto memberDto, String title, String content, String thumbnailUrl,List<itemDto> itemDtoList) {
+    public static ArticleDto of(MemberDto memberDto, String title, String content, String thumbnailUrl,List<ItemDto> itemDtoList) {
         return new ArticleDto(null, memberDto, title, content, null, null, null, null, thumbnailUrl, itemDtoList);
     }
 
@@ -47,8 +47,8 @@ public class ArticleDto {
     }
 
     public static ArticleDto from(Article article, List<Item> items) {
-        List<itemDto> itemDtoList = items.stream()
-                .map(itemDto::from)
+        List<ItemDto> itemDtoList = items.stream()
+                .map(ItemDto::from)
                 .collect(Collectors.toList());
 
         return new ArticleDto(

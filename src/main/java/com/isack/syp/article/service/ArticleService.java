@@ -7,7 +7,7 @@ import com.isack.syp.article.repository.ArticleQueryRepository;
 import com.isack.syp.article.repository.ArticleRepository;
 import com.isack.syp.articleItem.ArticleItemService;
 import com.isack.syp.item.ItemService;
-import com.isack.syp.item.itemDto;
+import com.isack.syp.item.ItemDto;
 import com.isack.syp.member.domain.Member;
 import com.isack.syp.member.dto.MemberDto;
 import com.isack.syp.member.repository.MemberRepository;
@@ -45,7 +45,7 @@ public class ArticleService {
     public Long saveArticle(ArticleDto articleDto) {
         Member member = memberRepository.findById(articleDto.getMemberDto().getId()).orElseThrow(RuntimeException::new);
         Article article = articleRepository.save(articleDto.toEntity(member));
-        List<Item> items = articleDto.getItemDtoList().stream().map((itemDto::toEntity)).toList();
+        List<Item> items = articleDto.getItemDtoList().stream().map((ItemDto::toEntity)).toList();
         for (Item item : items) {
             Long itemId = itemService.saveItem(item);
             articleItemService.saveArticleItem(article.getId(), itemId);
@@ -67,7 +67,7 @@ public class ArticleService {
         validateAuthor(articleDto.getMemberDto(), article);
         articleItemService.deleteArticleItem(articleId);
 
-        List<Item> items = articleDto.getItemDtoList().stream().map(itemDto::toEntity).toList();
+        List<Item> items = articleDto.getItemDtoList().stream().map(ItemDto::toEntity).toList();
         for (Item item : items) {
             Long itemId = itemService.saveItem(item);
             articleItemService.saveArticleItem(article.getId(), itemId);

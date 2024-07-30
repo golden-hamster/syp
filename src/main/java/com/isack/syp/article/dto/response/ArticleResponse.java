@@ -1,7 +1,7 @@
 package com.isack.syp.article.dto.response;
 
 import com.isack.syp.article.dto.ArticleDto;
-import com.isack.syp.item.itemDto;
+import com.isack.syp.item.ItemDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ public class ArticleResponse {
     private Long id;
     private String title;
     private String content;
-    private List<itemDto> itemDtoList;
+    private List<ItemDto> itemDtoList;
     private String createdBy;
     private String createdAt;
     private Integer commentCount;
