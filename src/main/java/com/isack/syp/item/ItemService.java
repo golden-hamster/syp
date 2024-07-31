@@ -11,6 +11,10 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    public Item findById(Long itemId) {
+        return itemRepository.findById(itemId).orElseThrow(RuntimeException::new);
+    }
+
     @Transactional
     public Long saveItem(Item item) {
         return itemRepository.findByVideoId(item.getVideoId())
