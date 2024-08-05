@@ -6,6 +6,7 @@ import com.isack.syp.article.dto.response.ArticleResponse;
 import com.isack.syp.article.dto.response.ArticlesResponse;
 import com.isack.syp.article.dto.response.SimpleArticleResponse;
 import com.isack.syp.article.service.ArticleService;
+import com.isack.syp.likes.LikesService;
 import com.isack.syp.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.net.URI;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final LikesService likesService;
 
     @GetMapping
     public ResponseEntity<ArticlesResponse> findArticles(
@@ -35,8 +37,12 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long articleId) {
-        ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId));
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable Long articleId, @AuthenticationPrincipal MemberDto memberDto) {
+        boolean isLiked = false;
+        if (memberDto != null) {
+            isLiked = likesService.isLiked(articleId, memberDto);
+        }
+        ArticleResponse articleResponse = ArticleResponse.from(articleService.findById(articleId), isLiked);
         return ResponseEntity.ok(articleResponse);
     }
 

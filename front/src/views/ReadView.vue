@@ -4,19 +4,23 @@ import axios from 'axios'
 import Article from '@/entity/article/Article'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { Comment, Star, UserFilled } from '@element-plus/icons-vue'
+import { Comment, Star, StarFilled, UserFilled } from '@element-plus/icons-vue'
 
 const props = defineProps<{ articleId: string }>()
 
 const router = useRouter()
 
 const article = ref(new Article())
+const likesCount = ref(0)
+const isLiked = ref(false)
 
 const getArticle = () => {
   axios
     .get(`/api/articles/${props.articleId}`)
     .then((response) => {
       article.value = new Article(response.data)
+      likesCount.value = response.data.likesCount
+      isLiked.value = response.data.isLiked
       // console.log(article.value)
       // console.log(article.value.playlistItem)
     })
@@ -41,6 +45,32 @@ const deleteArticle = () => {
 
 const moveToEdit = () => {
   router.push({ name: 'update', params: { articleId: props.articleId } })
+}
+
+const toggleLikeArticle = () => {
+  if (isLiked.value) {
+    axios
+      .delete(`/api/${props.articleId}/likes`)
+      .then((response) => {
+        likesCount.value = response.data.likesCount
+        isLiked.value = false
+        ElMessage({ type: 'success', message: '좋아요가 취소되었습니다.' })
+      })
+      .catch((e) => {
+        console.error('좋아요 취소 에러', e)
+      })
+  } else {
+    axios
+      .post(`/api/${props.articleId}/likes`)
+      .then((response) => {
+        likesCount.value = response.data.likesCount
+        isLiked.value = true
+        ElMessage({ type: 'success', message: '좋아요!' })
+      })
+      .catch((e) => {
+        console.error('좋아요 에러', e)
+      })
+  }
 }
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -96,8 +126,10 @@ onMounted(() => {
           <el-button color="#626aef" @click="moveToEdit()"
             >1<el-icon><Comment /></el-icon
           ></el-button>
-          <el-button color="#626aef" @click="moveToEdit()"
-            >1<el-icon><Star /></el-icon
+          <el-button color="#626aef" @click="toggleLikeArticle()"
+            >{{ likesCount
+            }}<el-icon>
+              <component :is="isLiked ? StarFilled : Star" /> </el-icon
           ></el-button>
           <!--          <el-button color="#626aef" @click="moveToEdit()"><el-icon><StarFilled /></el-icon></el-button>-->
         </div>
