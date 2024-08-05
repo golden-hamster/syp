@@ -1,6 +1,7 @@
 package com.isack.syp;
 
 import com.isack.syp.article.domain.Article;
+import com.isack.syp.articleItem.ArticleItem;
 import com.isack.syp.item.Item;
 import com.isack.syp.comment.domain.Comment;
 import com.isack.syp.member.domain.Member;
@@ -58,6 +59,14 @@ public class InitDb {
                 items.add(item2);
                 items.add(item3);
                 items.forEach(em::persist);
+                List<ArticleItem> articleItems = new ArrayList<>();
+                ArticleItem articleItem1 = ArticleItem.of(article.getId(), item1.getId());
+                ArticleItem articleItem2 = ArticleItem.of(article.getId(), item2.getId());
+                ArticleItem articleItem3 = ArticleItem.of(article.getId(), item3.getId());
+                articleItems.add(articleItem1);
+                articleItems.add(articleItem2);
+                articleItems.add(articleItem3);
+                articleItems.forEach(em::persist);
                 //댓글 생성
                 for (int k = 1; k <= 5; k++) {
                     Comment comment = Comment.of(article, member, "Comment is...");
