@@ -20,8 +20,9 @@ public class ArticleResponse {
     private String createdAt;
     private Integer commentCount;
     private Integer likesCount;
+    private Boolean isLiked;
 
-    public static ArticleResponse from(ArticleDto articleDto) {
+    public static ArticleResponse from(ArticleDto articleDto, boolean isLiked) {
         return new ArticleResponse(
                 articleDto.getId(),
                 articleDto.getTitle(),
@@ -30,7 +31,8 @@ public class ArticleResponse {
                 articleDto.getCreatedBy(),
                 articleDto.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")),
                 articleDto.getCommentCount(),
-                articleDto.getLikesCount()
+                articleDto.getLikesCount(),
+                isLiked
         );
     }
 }

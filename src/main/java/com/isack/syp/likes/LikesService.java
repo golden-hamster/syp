@@ -16,16 +16,29 @@ public class LikesService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public void likeArticle(Long articleId, MemberDto memberDto) {
+    public Integer likeArticle(Long articleId, MemberDto memberDto) {
+        Long memberId = memberDto.getId();
+        if (likesRepository.existsByMemberIdAndArticleId(memberId, articleId)) {
+            throw new RuntimeException("이미 좋아요를 누른 게시글입니다.");
+        }
+        Article article = articleRepository.findById(articleId).orElseThrow(RuntimeException::new);
+        likesRepository.save(Likes.of(memberId, articleId));
+        article.increaseLikes();
+        return article.getLikesCount();
+    }
+
+    @Transactional
+    public Integer unlikeArticle(Long articleId, MemberDto memberDto) {
         Long memberId = memberDto.getId();
         Article article = articleRepository.findById(articleId).orElseThrow(RuntimeException::new);
-        likesRepository.findByMemberIdAndArticleId(memberId, articleId)
-                        .ifPresentOrElse(existingLike -> { // 이미 좋아요를 누른 경우, 좋아요를 취소하고 개수 감소 처리
-                            likesRepository.delete(existingLike);
-                            article.decreaseLikes();
-                        }, () -> { // 좋아요를 누르지 않은 경우, 좋아요를 저장하고 증가 처리
-                            likesRepository.save(Likes.of(memberId, articleId));
-                            article.increaseLikes();
-                        });
+        Likes likes = likesRepository.findByMemberIdAndArticleId(memberId, articleId).orElseThrow(RuntimeException::new);
+        likesRepository.delete(likes);
+        article.decreaseLikes();
+        return article.getLikesCount();
+    }
+
+    public boolean isLiked(Long articleId, MemberDto memberDto) {
+        Long memberId = memberDto.getId();
+        return likesRepository.existsByMemberIdAndArticleId(memberId, articleId);
     }
 }
