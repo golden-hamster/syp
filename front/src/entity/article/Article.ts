@@ -8,13 +8,13 @@ export default class Article {
   public createdBy = ''
   public createdAt = ''
   public commentCount = 0
-  public item: Item[] = []
+  public items: Item[] = []
 
   constructor(data?: Partial<Article>) {
     if (data) {
       Object.assign(this, data)
       if ((data as any).itemDtoList) {
-        this.item = (data as any).itemDtoList.map((item: any) => new Item(item))
+        this.items = (data as any).itemDtoList.map((item: any) => new Item(item))
       }
     }
   }

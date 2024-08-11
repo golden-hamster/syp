@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import ReadView from '@/views/ReadView.vue'
 import AllView from '@/views/AllView.vue'
 import UpdateView from '@/views/UpdateView.vue'
+import MyPlaylistView from '@/views/MyPlaylistView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/all',
       name: 'all',
       component: AllView
+    },
+    {
+      path: '/my-playlist',
+      name: 'myPlaylist',
+      component: MyPlaylistView
     }
     // {
     //   path: '/about',
