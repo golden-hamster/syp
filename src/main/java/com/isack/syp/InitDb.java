@@ -44,15 +44,15 @@ public class InitDb {
                 em.persist(article);
                 List<Item> items = new ArrayList<>();
                 Item item1 = Item.of(
-                        "_nXwrx4Qyz8",
+                        "_nXwrx4Qyz8" + i + j,
                         "고양이와 Iwamizu의 Lofi Jazz Piano • 공부할때, 집중할때, 코딩할때 • 3 hours",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 Item item2 = Item.of(
-                        "Uyl_KVZpYQ4",
+                        "Uyl_KVZpYQ4" + i + j,
                         "Erikson Jayanto - Farewell (Official Audio)",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 Item item3 = Item.of(
-                        "DIPxnt5vnhU",
+                        "DIPxnt5vnhU" + i + j,
                         "실리카겔 (Silica Gel) - T + Tik Tak Tok (feat. So!YoON!) [MV]",
                         "https://i.ytimg.com/vi/_nXwrx4Qyz8/mqdefault.jpg");
                 items.add(item1);
