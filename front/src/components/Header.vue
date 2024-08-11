@@ -13,7 +13,7 @@
       <el-menu-item v-if="!isLoggedIn" index="/login">Login</el-menu-item>
       <el-sub-menu v-if="isLoggedIn">
         <template #title>My Page</template>
-        <el-menu-item index="/My Playlist">My Playlist</el-menu-item>
+        <el-menu-item index="/my-playlist">My Playlist</el-menu-item>
         <el-menu-item index="/likes">Likes</el-menu-item>
         <el-menu-item index="/setting">Setting</el-menu-item>
         <el-menu-item v-if="isLoggedIn" @click="logout()">Logout</el-menu-item>

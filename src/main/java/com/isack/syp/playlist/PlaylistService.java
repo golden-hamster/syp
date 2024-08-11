@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,14 +53,18 @@ public class PlaylistService {
     @Transactional
     public Long savePlaylist(PlaylistRequest playlistRequest, Long memberId) {
         List<Item> items = playlistRequest.getItemDtoList().stream().map(ItemDto::toEntity).toList();
+
+        Map<Item, Long> savedItemIds = new HashMap<>();
+
         for (Item item : items) {
-            itemService.saveItem(item);
+            Long itemId = itemService.saveItem(item);
+            savedItemIds.put(item, itemId);
         }
 
         Playlist playlist = playlistRequest.toEntity(memberId);
         playlistRepository.save(playlist);
 
-        List<PlaylistItem> playlistItems = items.stream().map(item -> PlaylistItem.of(playlist.getId(), item.getId())).toList();
+        List<PlaylistItem> playlistItems = items.stream().map(item -> PlaylistItem.of(playlist.getId(), savedItemIds.get(item))).toList();
         playlistItemService.saveAllPlaylistItem(playlistItems);
 
         return playlist.getId();
@@ -73,24 +79,16 @@ public class PlaylistService {
     }
 
     @Transactional
-    public PlaylistResponse addItem(ItemDto itemDto, Long playlistId, MemberDto memberDto) {
+    public void addItem(ItemDto itemDto, Long playlistId, MemberDto memberDto) {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(RuntimeException::new);
         validateAuthor(memberDto, playlist);
 
         // 새로운 아이템을 ITEM, PLAYLIST_ITEM 테이블에 각각 저장
         Long itemId = itemService.saveItem(itemDto.toEntity());
-        if (!playlistItemRepository.existsByPlaylistIdAndItemId(playlistId, itemId)) {
+        if (!playlistItemRepository.existsByPlaylistIdAndItemId(playlistId, itemId)) { // 중복 방지
             PlaylistItem newPlaylistItem = PlaylistItem.of(playlistId, itemId);
             playlistItemRepository.save(newPlaylistItem);
         }
-
-        // playlistId 로 PlaylistItem 조회 후 List<Item> -> List<ItemDto> 로 변환 후 반환
-        List<PlaylistItem> playlistItems = playlistItemRepository.findByPlaylistId(playlistId);
-        List<Item> items = playlistItems.stream().map(playlistItem -> itemService.findById(playlistItem.getItemId())).toList();
-        List<ItemDto> itemDtoList = items.stream().map(ItemDto::from).toList();
-
-
-        return PlaylistResponse.from(playlist, itemDtoList);
     }
 
     @Transactional

@@ -15,6 +15,8 @@ import 'element-plus/dist/index.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 
+import './styles/global.css'
+
 const app = createApp(App)
 
 app.use(ElementPlus)

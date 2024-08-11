@@ -5,6 +5,8 @@ import Article from '@/entity/article/Article'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { Comment, Star, StarFilled, UserFilled } from '@element-plus/icons-vue'
+import Playlist from '@/entity/playlist/Playlist'
+import type Item from '@/entity/article/Item'
 
 const props = defineProps<{ articleId: string }>()
 
@@ -13,6 +15,32 @@ const router = useRouter()
 const article = ref(new Article())
 const likesCount = ref(0)
 const isLiked = ref(false)
+const addItemModal = ref(false)
+const selectedItem = ref<Item>()
+
+const openAddItemModal = (item: Item) => {
+  selectedItem.value = item
+  addItemModal.value = true
+}
+
+const addItem = (playlistId: number) => {
+  if (!selectedItem.value) return
+
+  axios
+    .post(`/api/playlists/${playlistId}`, {
+      videoId: selectedItem.value?.videoId,
+      videoTitle: selectedItem.value?.videoTitle,
+      thumbnailUrl: selectedItem.value?.thumbnailUrl
+    })
+    .then(() => {
+      ElMessage({ type: 'success', message: '동영상이 플레이리스트에 추가되었습니다.' })
+      addItemModal.value = false
+    })
+    .catch((error) => {
+      console.error('동영상 추가 에러', error)
+      ElMessage({ type: 'error', message: '동영상 추가 중 오류가 발생했습니다.' })
+    })
+}
 
 const getArticle = () => {
   axios
@@ -80,15 +108,24 @@ const options = Array.from({ length: 10 }).map((_, idx) => ({
   label: `${initials[idx % 10]}${idx}`
 }))
 
+const myPlaylists = ref<Playlist[]>([])
+
+const getMyPlaylist = () => {
+  axios.get('/api/playlists/me').then((response) => {
+    myPlaylists.value = response.data.playlistResponses
+  })
+}
+
 onMounted(() => {
   getArticle()
+  getMyPlaylist()
 })
 </script>
 
 <template>
   <div class="row">
     <div class="col-5 text-end">
-      <el-image :src="article.item[0]?.thumbnailUrl" style="width: 90%" />
+      <el-image :src="article.items[0]?.thumbnailUrl" style="width: 90%" />
     </div>
 
     <div class="col-7">
@@ -124,13 +161,17 @@ onMounted(() => {
       <div class="row">
         <div class="col">
           <el-button color="#626aef" @click="moveToEdit()"
-            >1<el-icon><Comment /></el-icon
-          ></el-button>
+            >1
+            <el-icon>
+              <Comment />
+            </el-icon>
+          </el-button>
           <el-button color="#626aef" @click="toggleLikeArticle()"
-            >{{ likesCount
-            }}<el-icon>
-              <component :is="isLiked ? StarFilled : Star" /> </el-icon
-          ></el-button>
+            >{{ likesCount }}
+            <el-icon>
+              <component :is="isLiked ? StarFilled : Star" />
+            </el-icon>
+          </el-button>
           <!--          <el-button color="#626aef" @click="moveToEdit()"><el-icon><StarFilled /></el-icon></el-button>-->
         </div>
         <div class="col">
@@ -141,7 +182,7 @@ onMounted(() => {
     </div>
   </div>
 
-  <div class="row align-items-center" v-for="item in article.item" :key="item.videoId">
+  <div class="row align-items-center" v-for="item in article.items" :key="item.videoId">
     <div class="col-md-4 text-end">
       <el-image :src="item.thumbnailUrl" style="width: 80%" />
     </div>
@@ -150,16 +191,18 @@ onMounted(() => {
     </div>
     <div class="col-md-3">
       <!--      <span><el-button color="#626aef" style="margin-right: 10px">저장</el-button></span>-->
-      <span
-        ><el-select-v2
-          v-model="value"
-          :options="options"
-          placeholder="저장"
-          style="width: 7rem; margin-right: 10px"
-      /></span>
+      <span class="playlist-button"
+        ><el-button color="#626aef" @click="openAddItemModal(item)">저장</el-button></span
+      >
       <span><el-button color="#626aef">바로가기</el-button></span>
     </div>
   </div>
+
+  <el-dialog width="400" v-model="addItemModal" title="동영상 저장">
+    <div class="row playlist" v-for="playlist in myPlaylists" :key="playlist.id">
+      <el-button color="#626aef" @click="addItem(playlist.id)">{{ playlist.title }}</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -177,6 +220,14 @@ onMounted(() => {
     margin-left: 10px;
     color: #5d5d5d;
   }
+}
+
+.playlist-button {
+  margin-right: 10px;
+}
+
+.playlist {
+  margin-bottom: 15px;
 }
 
 //.content {
