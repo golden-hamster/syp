@@ -38,9 +38,9 @@ public class PlaylistController {
     }
 
     @PostMapping("/{playlistId}")
-    public ResponseEntity<PlaylistResponse> addItem(@RequestBody ItemDto itemDto, @PathVariable Long playlistId, @AuthenticationPrincipal MemberDto memberDto) {
-        PlaylistResponse playlistResponse = playlistService.addItem(itemDto, playlistId, memberDto);
-        return ResponseEntity.ok(playlistResponse);
+    public ResponseEntity<Void> addItem(@RequestBody ItemDto itemDto, @PathVariable Long playlistId, @AuthenticationPrincipal MemberDto memberDto) {
+        playlistService.addItem(itemDto, playlistId, memberDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{playlistId}/{itemId}")
